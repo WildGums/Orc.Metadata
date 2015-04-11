@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Analytics.Tests
+namespace Orc.Metadata.Tests
 {
     using NUnit.Framework;
 
