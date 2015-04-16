@@ -1,2 +1,4 @@
 # Orc.Metadata
-Classes that make it easy to store metadata about objects
+
+
+Is a library used to store information for properties that are added to an object at runtime.
