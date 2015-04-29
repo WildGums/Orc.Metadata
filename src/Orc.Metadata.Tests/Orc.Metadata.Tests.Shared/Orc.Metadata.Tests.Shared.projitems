@@ -11,6 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DummyFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollectionFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Factories\DictionaryMetadataFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Fixtures\TestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>

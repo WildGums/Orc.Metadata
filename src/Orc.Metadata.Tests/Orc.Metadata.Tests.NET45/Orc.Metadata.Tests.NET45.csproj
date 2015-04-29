@@ -57,6 +57,13 @@
       <HintPath>..\..\..\lib\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orc.Metadata\Orc.Metadata.NET45\Orc.Metadata.NET45.csproj">
+      <Project>{f3ec8f09-7800-4274-8e08-912402f8439d}</Project>
+      <Name>Orc.Metadata.NET45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">

@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Orc.Metadata.Models
+namespace Orc.Metadata
 {
     using System;
     using System.Collections.Generic;
