@@ -54,6 +54,7 @@
       <HintPath>..\..\..\lib\Catel.Fody.2.5.0\lib\portable-net4+sl4+wp7+win8+wpa81+MonoAndroid14+MonoTouch40\Catel.Fody.Attributes.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="..\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems" Label="Shared" Condition="Exists('..\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IMetadataExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IMetadataCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MetadataCollectionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Providers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\Extensions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Services\Interfaces\" />
   </ItemGroup>
 </Project>
