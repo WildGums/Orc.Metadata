@@ -9,6 +9,12 @@ namespace Orc.Metadata.Tests.Fixtures
 {
     public class TestModel
     {
-        public string SomeProperty { get; set; }
+        // Note: order is important for unit tests
+
+        public string StringProperty { get; set; }
+
+        public int IntProperty { get; set; }
+
+        public string ExistingProperty { get; set; }
     }
 }

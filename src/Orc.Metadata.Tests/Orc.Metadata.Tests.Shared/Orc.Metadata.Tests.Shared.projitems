@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DummyFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataCollectionFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollectionFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Factories\DictionaryMetadataFactory.cs" />
