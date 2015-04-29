@@ -25,21 +25,21 @@ namespace Orc.Metadata
             DisplayName = Name;
         }
 
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
-        public string DisplayName { get; set; }
+        public virtual string DisplayName { get; set; }
 
-        public object GetValue(object instance)
+        public virtual object GetValue(object instance)
         {
             return _propertyInfo.GetValue(instance, null);
         }
 
-        public void SetValue(object instance, object value)
+        public virtual void SetValue(object instance, object value)
         {
             _propertyInfo.SetValue(instance, value, null);
         }
 
-        public Type Type
+        public virtual Type Type
         {
             get { return _propertyInfo.PropertyType; }
         }

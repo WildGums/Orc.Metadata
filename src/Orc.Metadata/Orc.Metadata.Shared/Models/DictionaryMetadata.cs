@@ -36,21 +36,21 @@ namespace Orc.Metadata
         #endregion
 
         #region Properties
-        public string DisplayName { get; set; }
+        public virtual string DisplayName { get; set; }
 
-        public string Name
+        public virtual string Name
         {
             get { return _key; }
         }
 
-        public Type Type
+        public virtual Type Type
         {
             get { return _expectedType; }
         }
         #endregion
 
         #region Methods
-        public object GetValue(object instance)
+        public virtual object GetValue(object instance)
         {
             //Argument.IsOfType(() => instance, typeof(IDictionary<string, object>));
 
@@ -65,7 +65,7 @@ namespace Orc.Metadata
             return result;
         }
 
-        public void SetValue(object instance, object value)
+        public virtual void SetValue(object instance, object value)
         {
             //Argument.IsOfType(() => instance, typeof(IDictionary<string, object>));
 

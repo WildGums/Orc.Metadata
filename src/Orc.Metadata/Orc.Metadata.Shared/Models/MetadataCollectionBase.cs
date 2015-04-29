@@ -14,7 +14,7 @@ namespace Orc.Metadata
     {
         public abstract IEnumerable<IMetadata> All { get; }
 
-        public IMetadata GetMetadata(string metadataName)
+        public virtual IMetadata GetMetadata(string metadataName)
         {
             return All.FirstOrDefault(x => string.Equals(x.Name, metadataName));
         }
