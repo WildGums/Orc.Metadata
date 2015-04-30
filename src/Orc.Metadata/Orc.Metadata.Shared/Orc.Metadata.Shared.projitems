@@ -12,12 +12,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryObjectWithMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IMetadataExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IMetadataCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IObjectWithMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MetadataCollectionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ObjectWithMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionObjectWithMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>

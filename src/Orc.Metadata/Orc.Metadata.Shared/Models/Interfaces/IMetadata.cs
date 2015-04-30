@@ -27,7 +27,7 @@ namespace Orc.Metadata
         /// Gets the value.
         /// </summary>
         /// <param name="instance">The instance.</param>
-        /// <returns>System.Object.</returns>
+        /// <returns>System.Instance.</returns>
         object GetValue(object instance);
 
         /// <summary>
