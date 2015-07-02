@@ -2,6 +2,11 @@
 
 [![Join the chat at https://gitter.im/WildGums/Orc.Metadata](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/WildGums/Orc.Metadata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+![License](https://img.shields.io/github/license/wildgums/orc.metadata.svg)
+![NuGet downloads](https://img.shields.io/nuget/dt/orc.metadata.svg)
+![Version](https://img.shields.io/nuget/v/orc.metadata.svg)
+![Pre-release version](https://img.shields.io/nuget/vpre/orc.metadata.svg)
+
 This library provides classes to store metadata about objects. This metadata isn't necessarily stored inside the object itself, allowing the developer to keep track of additional information besides the information stored in the object.
 
 For the final interaction with the metadata, it is unknown where the information is coming from (the object itself or metadata stored somewhere else). The developer only has to work with the `IMetadata` and `IMetadataCollection` interfaces.
