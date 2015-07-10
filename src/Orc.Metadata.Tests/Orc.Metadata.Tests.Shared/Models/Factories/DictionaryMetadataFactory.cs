@@ -12,7 +12,7 @@ namespace Orc.Metadata.Tests.Models.Factories
 
     public static class DictionaryMetadataFactory
     {
-        public static DictionaryMetadataCollection CreateDictionary()
+        public static Dictionary<string, Type> CreateSchemaDictionary()
         {
             var dictionary = new Dictionary<string, Type>();
 
@@ -20,7 +20,33 @@ namespace Orc.Metadata.Tests.Models.Factories
             dictionary["IntProperty"] = typeof(int);
             dictionary["ExistingProperty"] = typeof(string);
 
-            return new DictionaryMetadataCollection(dictionary);
+            return dictionary;
         }
+
+        public static DictionaryMetadataCollection CreateMetadataCollection()
+        {
+            var schema = CreateSchemaDictionary();
+
+            return new DictionaryMetadataCollection(schema);
+        }
+
+        public static IObjectWithMetadata CreateFlatObjectWithMetadata()
+        {
+            var schema = CreateSchemaDictionary();
+
+            var metadata = new Dictionary<string, object>();
+            metadata["ExistingProperty"] = "works";
+            metadata["StringProperty"] = null;
+            metadata["IntProperty"] = 42;
+
+            var objectWithMetadata = new DictionaryObjectWithMetadata(metadata, schema, metadata);
+            return objectWithMetadata;
+
+        }
+
+        //public static IObjectWithMetadata CreateHierarchicalObjectWithMetadata()
+        //{
+
+        //}
     }
 }

@@ -11,7 +11,7 @@ namespace Orc.Metadata
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class MetadataCollectionBase : IMetadataCollection, IEnumerable<IMetadata>
+    public abstract class MetadataCollectionBase : IMetadataCollection
     {
         public abstract IEnumerable<IMetadata> All { get; }
 

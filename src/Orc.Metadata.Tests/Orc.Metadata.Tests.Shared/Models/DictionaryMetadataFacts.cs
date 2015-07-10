@@ -18,7 +18,7 @@ namespace Orc.Metadata.Tests.Models
         [TestCase("IntProperty", 42)]
         public void TheGetValueMethod(string metadataName, object expectedValue)
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateDictionary();
+            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
 
             var dictionary = new Dictionary<string, object>();
             dictionary["ExistingProperty"] = "works";
@@ -36,7 +36,7 @@ namespace Orc.Metadata.Tests.Models
         [TestCase("IntProperty", 1)]
         public void TheSetValueMethod(string metadataName, object expectedValue)
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateDictionary();
+            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
 
             var dictionary = new Dictionary<string, object>();
             dictionary["ExistingProperty"] = "works";

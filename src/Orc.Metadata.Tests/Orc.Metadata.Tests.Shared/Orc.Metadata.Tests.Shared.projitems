@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DummyFacts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IObjectWithMetadataExtensionsFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataCollectionFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollectionFacts.cs" />

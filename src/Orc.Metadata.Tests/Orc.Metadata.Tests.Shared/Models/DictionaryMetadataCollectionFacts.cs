@@ -17,7 +17,7 @@ namespace Orc.Metadata.Tests
         [TestCase]
         public void TheAllProperty()
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateDictionary();
+            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
 
             var all = metadataCollection.All.ToList();
 
@@ -33,7 +33,7 @@ namespace Orc.Metadata.Tests
         [TestCase("NotExistingValue", false)]
         public void TheGetMetadataMethod(string metadataName, bool shouldExist)
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateDictionary();
+            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
             var metadata = metadataCollection.GetMetadata(metadataName);
 
             if (shouldExist)
