@@ -9,6 +9,7 @@ namespace Orc.Metadata.Tests.Models.Factories
 {
     using System;
     using System.Collections.Generic;
+    using System.Windows.Media;
 
     public static class DictionaryMetadataFactory
     {
@@ -44,9 +45,36 @@ namespace Orc.Metadata.Tests.Models.Factories
 
         }
 
-        //public static IObjectWithMetadata CreateHierarchicalObjectWithMetadata()
-        //{
+        public static IObjectWithMetadata CreateHierarchicalObjectWithMetadata()
+        {
+            var solidColorBrush = Brushes.Red;
+            var color = solidColorBrush.Color;
 
-        //}
+            var metadataSchema = new Dictionary<string, Type>();
+            metadataSchema["Name"] = typeof(string);
+            metadataSchema["RGB"] = typeof(string);
+            metadataSchema["Color"] = typeof(IObjectWithMetadata);
+
+            var colorMetadataSchema = new Dictionary<string, Type>();
+            colorMetadataSchema["A"] = typeof(int);
+            colorMetadataSchema["R"] = typeof(int);
+            colorMetadataSchema["G"] = typeof(int);
+            colorMetadataSchema["B"] = typeof(int);
+
+            var colorMetadata = new Dictionary<string, object>();
+            colorMetadata["A"] = color.A;
+            colorMetadata["R"] = color.R;
+            colorMetadata["G"] = color.G;
+            colorMetadata["B"] = color.B;
+
+            var colorObjectWithMetadata = new DictionaryObjectWithMetadata(solidColorBrush, colorMetadataSchema, colorMetadata);
+
+            var metadata = new Dictionary<string, object>();
+            metadata["Name"] = solidColorBrush.ToString();
+            metadata["RGB"] = solidColorBrush.ToString();
+            metadata["Color"] = colorObjectWithMetadata;
+
+            return new DictionaryObjectWithMetadata(solidColorBrush, metadataSchema, metadata);
+        }
     }
 }
