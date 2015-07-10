@@ -24,9 +24,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionObjectWithMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Interfaces\IMetadataProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\MetadataProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Providers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\Extensions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\Interfaces\" />
   </ItemGroup>
