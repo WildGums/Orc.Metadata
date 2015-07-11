@@ -7,9 +7,11 @@
 
 namespace Orc.Metadata
 {
+    using System;
     using System.Diagnostics;
 
     [DebuggerDisplay("{Metadata.Name} => {Value}")]
+    [Serializable]
     public class MetadataValue : IMetadataValue
     {
         public MetadataValue(IMetadata metadata)
