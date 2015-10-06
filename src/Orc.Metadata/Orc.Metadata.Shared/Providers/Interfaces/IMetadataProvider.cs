@@ -11,7 +11,7 @@ namespace Orc.Metadata
 
     public interface IMetadataProvider
     {
-        [ObsoleteEx(RemoveInVersion = "1.1.0", TreatAsErrorFromVersion = "1.0.1", ReplacementTypeOrMember = "GetMetadataAsync")]
+        [ObsoleteEx(RemoveInVersion = "1.2.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
         IObjectWithMetadata GetMetadata(object obj);
         Task<IObjectWithMetadata> GetMetadataAsync(object obj);
     }

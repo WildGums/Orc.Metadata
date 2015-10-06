@@ -12,7 +12,7 @@ namespace Orc.Metadata
 
     public class MetadataProvider : IMetadataProvider
     {
-        [ObsoleteEx(RemoveInVersion = "1.1.0", TreatAsErrorFromVersion = "1.0.1", ReplacementTypeOrMember = "GetMetadataAsync")]
+        [ObsoleteEx(RemoveInVersion = "1.2.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
         public virtual IObjectWithMetadata GetMetadata(object obj)
         {
             // By default we use reflection, user can always register their own IMetadataProvider
@@ -21,7 +21,8 @@ namespace Orc.Metadata
 
         public virtual Task<IObjectWithMetadata> GetMetadataAsync(object obj)
         {
-            return TaskHelper<IObjectWithMetadata>.FromResult(GetMetadata(obj));
+            // By default we use reflection, user can always register their own IMetadataProvider
+            return TaskHelper<IObjectWithMetadata>.FromResult(new ReflectionObjectWithMetadata(obj));
         }
     }
 }
