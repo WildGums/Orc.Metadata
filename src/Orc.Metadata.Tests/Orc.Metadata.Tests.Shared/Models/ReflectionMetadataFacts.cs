@@ -50,7 +50,7 @@ namespace Orc.Metadata.Tests.Models
             var metadata = metadataCollection.GetMetadata(metadataName);
             metadata.SetValue(model, expectedValue);
 
-            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName));
+            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName, false));
         }
     }
 }
