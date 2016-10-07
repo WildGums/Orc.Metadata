@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetadataProvider.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="MetadataProvider.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace Orc.Metadata
 
     public class MetadataProvider : IMetadataProvider
     {
-        [ObsoleteEx(RemoveInVersion = "1.2.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
+        [ObsoleteEx(RemoveInVersion = "2.0.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
         public virtual IObjectWithMetadata GetMetadata(object obj)
         {
             // By default we use reflection, user can always register their own IMetadataProvider

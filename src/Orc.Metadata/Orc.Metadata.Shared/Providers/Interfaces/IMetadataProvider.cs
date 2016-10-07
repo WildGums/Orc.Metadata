@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMetadataProvider.cs" company="Wild Gums">
-//   Copyright (c) 2008 - 2015 Wild Gums. All rights reserved.
+// <copyright file="IMetadataProvider.cs" company="WildGums">
+//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ namespace Orc.Metadata
 
     public interface IMetadataProvider
     {
-        [ObsoleteEx(RemoveInVersion = "1.2.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
+        [ObsoleteEx(RemoveInVersion = "2.0.0", TreatAsErrorFromVersion = "1.1.0", ReplacementTypeOrMember = "GetMetadataAsync")]
         IObjectWithMetadata GetMetadata(object obj);
         Task<IObjectWithMetadata> GetMetadataAsync(object obj);
     }
