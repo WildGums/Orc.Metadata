@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryMetadataCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\DictionaryObjectWithMetadata.cs" />

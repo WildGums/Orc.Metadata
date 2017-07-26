@@ -1,20 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Metadata.NET40", "Orc.Metadata\Orc.Metadata.NET40\Orc.Metadata.NET40.csproj", "{4258FC75-DD23-4877-A56D-3A077AB57F2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Metadata.NET47", "Orc.Metadata\Orc.Metadata.NET47\Orc.Metadata.NET47.csproj", "{4258FC75-DD23-4877-A56D-3A077AB57F2D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8A1A4EE-E04A-43AB-90C9-41E7B82EE1E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{1FE0D431-A761-4239-B2D6-D32C70723FD2}"
 	ProjectSection(SolutionItems) = preProject
+		GlobalSuppressions.cs = GlobalSuppressions.cs
 		nuget.config = nuget.config
 		Orc.Metadata.sln.DotSettings = Orc.Metadata.sln.DotSettings
 		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Metadata.Tests.NET40", "Orc.Metadata.Tests\Orc.Metadata.Tests.NET40\Orc.Metadata.Tests.NET40.csproj", "{D6415689-67DE-4FEE-AA72-6D7EEDDDCEB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Metadata.Tests.NET47", "Orc.Metadata.Tests\Orc.Metadata.Tests.NET47\Orc.Metadata.Tests.NET47.csproj", "{D6415689-67DE-4FEE-AA72-6D7EEDDDCEB6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B1500163-DD62-4454-AA11-9F1CF313986E}"
 EndProject
@@ -34,14 +35,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Metadata.Tests.NET46", 
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Orc.Metadata.Tests\Orc.Metadata.Tests.Shared\Orc.Metadata.Tests.Shared.projitems*{d356bec8-19be-4c5e-9a07-4f6a8ae75741}*SharedItemsImports = 13
 		Orc.Metadata\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems*{4258fc75-dd23-4877-a56d-3a077ab57f2d}*SharedItemsImports = 4
 		Orc.Metadata.Tests\Orc.Metadata.Tests.Shared\Orc.Metadata.Tests.Shared.projitems*{71340dee-8489-40ce-8416-3c7e4274d5ef}*SharedItemsImports = 4
+		Orc.Metadata\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems*{850a9f5c-534a-4c69-bad5-a82f2f733a6d}*SharedItemsImports = 13
 		Orc.Metadata\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems*{91ba7672-d2f9-481a-a5d4-97ba3b97e06e}*SharedItemsImports = 4
+		Orc.Metadata.Tests\Orc.Metadata.Tests.Shared\Orc.Metadata.Tests.Shared.projitems*{d356bec8-19be-4c5e-9a07-4f6a8ae75741}*SharedItemsImports = 13
 		Orc.Metadata.Tests\Orc.Metadata.Tests.Shared\Orc.Metadata.Tests.Shared.projitems*{d6415689-67de-4fee-aa72-6d7eedddceb6}*SharedItemsImports = 4
 		Orc.Metadata\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems*{f3ec8f09-7800-4274-8e08-912402f8439d}*SharedItemsImports = 4
 		Orc.Metadata.Tests\Orc.Metadata.Tests.Shared\Orc.Metadata.Tests.Shared.projitems*{ff90e6b4-4a91-40ac-9ce4-823ae9a1265f}*SharedItemsImports = 4
-		Orc.Metadata\Orc.Metadata.Shared\Orc.Metadata.Shared.projitems*{850a9f5c-534a-4c69-bad5-a82f2f733a6d}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
