@@ -10,7 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)..\..\SolutionAssemblyInfo.cs" />
-	<Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalInitialization.approvaltests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extensions\IObjectWithMetadataExtensionsFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataFacts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ReflectionMetadataCollectionFacts.cs" />
@@ -20,5 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Fixtures\TestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInitializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PublicApiFacts.cs" />
   </ItemGroup>
 </Project>
