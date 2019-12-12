@@ -54,7 +54,7 @@ namespace Orc.Metadata
         {
             object result = null;
 
-            if(instance is IDictionary<string, object> dictionary)
+            if (instance is IDictionary<string, object> dictionary)
             {
                 dictionary.TryGetValue(_key, out result);
             }
@@ -67,15 +67,15 @@ namespace Orc.Metadata
 
             if (instance is IDictionary<string, object> dictionary)
             {
-                if(dictionary.TryGetValue(_key, out var result))
+                if (dictionary.TryGetValue(_key, out var result))
                 {
-                    if(Equals(result, default(TValue)))
+                    if (Equals(result, default(TValue)))
                     {
                         value = default;
                         return true;
                     }
 
-                    if(result is TValue resultValue)
+                    if (result is TValue resultValue)
                     {
                         value = resultValue;
                         return true;
@@ -89,7 +89,7 @@ namespace Orc.Metadata
 
         public virtual void SetValue(object instance, object value)
         {
-            if(instance is IDictionary<string, object> dictionary)
+            if (instance is IDictionary<string, object> dictionary)
             {
                 dictionary[_key] = value;
             }

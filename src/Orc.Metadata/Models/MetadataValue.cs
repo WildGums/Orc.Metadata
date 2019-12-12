@@ -7,7 +7,6 @@
 
 namespace Orc.Metadata
 {
-    using System;
     using System.Diagnostics;
 
     [DebuggerDisplay("{Metadata.Name} => {ObjectValue}")]
@@ -26,7 +25,7 @@ namespace Orc.Metadata
     [DebuggerDisplay("{Metadata.Name} => {Value}")]
     public class MetadataValue<TValue> : MetadataValue, IMetadataValue<TValue>
     {
-        public MetadataValue(IMetadata metadata) 
+        public MetadataValue(IMetadata metadata)
             : base(metadata)
         {
         }

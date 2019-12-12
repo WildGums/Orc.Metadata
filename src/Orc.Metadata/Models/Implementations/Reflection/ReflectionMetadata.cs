@@ -10,7 +10,6 @@ namespace Orc.Metadata
     using System;
     using System.Reflection;
     using Catel;
-    using Catel.Reflection;
 
     public class ReflectionMetadata : IMetadata
     {
@@ -50,7 +49,7 @@ namespace Orc.Metadata
 
             var result = GetValue(instance);
 
-            if(Equals(result, default(TValue)))
+            if (Equals(result, default(TValue)))
             {
                 value = default;
                 return true;

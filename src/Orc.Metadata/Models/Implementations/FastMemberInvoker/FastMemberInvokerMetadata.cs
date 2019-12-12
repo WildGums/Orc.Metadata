@@ -7,7 +7,7 @@
     public class FastMemberInvokerMetadata : IMetadata
     {
         private readonly IFastMemberInvoker _fastMemberInvoker;
-            
+
         public FastMemberInvokerMetadata(IFastMemberInvoker fastMemberInvoker, string name, Type type)
         {
             Argument.IsNotNull(() => fastMemberInvoker);
