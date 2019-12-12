@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMetadataValue.cs" company="WildGums">
+// <copyright file="ReflectionObjectWithMetadata.cs" company="WildGums">
 //   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
@@ -7,14 +7,11 @@
 
 namespace Orc.Metadata
 {
-    public interface IMetadataValue
+    public class ReflectionObjectWithMetadata : ObjectWithMetadata
     {
-        IMetadata Metadata { get; }
-        object ObjectValue { get; set; }
-    }
-
-    public interface IMetadataValue<TValue> : IMetadataValue
-    {
-        TValue Value { get; set; }
+        public ReflectionObjectWithMetadata(object instance)
+            : base(instance, new ReflectionMetadataCollection(instance.GetType()))
+        {
+        }
     }
 }
