@@ -48,6 +48,14 @@ namespace Orc.Metadata
                 return false;
             }
 
+            var result = GetValue(instance);
+
+            if(Equals(result, default(TValue)))
+            {
+                value = default;
+                return true;
+            }
+
             if (GetValue(instance) is TValue propertyValue)
             {
                 value = propertyValue;
@@ -70,7 +78,7 @@ namespace Orc.Metadata
                 return false;
             }
 
-            SetValue(instance, value);
+            _propertyInfo.SetValue(instance, value, null);
 
             return false;
         }

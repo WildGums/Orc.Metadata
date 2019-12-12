@@ -64,11 +64,23 @@ namespace Orc.Metadata
 
         public bool GetValue<TValue>(object instance, out TValue value)
         {
-            if(instance is IDictionary<string, TValue> dictionary)
-            {
-                dictionary.TryGetValue(_key, out value);
 
-                return true;
+            if (instance is IDictionary<string, object> dictionary)
+            {
+                if(dictionary.TryGetValue(_key, out var result))
+                {
+                    if(Equals(result, default(TValue)))
+                    {
+                        value = default;
+                        return true;
+                    }
+
+                    if(result is TValue resultValue)
+                    {
+                        value = resultValue;
+                        return true;
+                    }
+                }
             }
 
             value = default;
@@ -85,7 +97,7 @@ namespace Orc.Metadata
 
         public bool SetValue<TValue>(object instance, TValue value)
         {
-            if(instance is IDictionary<string,TValue> dictionary)
+            if (instance is IDictionary<string, object> dictionary)
             {
                 dictionary[_key] = value;
                 return true;

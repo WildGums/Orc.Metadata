@@ -11,6 +11,7 @@ namespace Orc.Metadata.Tests.Models
     using Factories;
     using NUnit.Framework;
 
+    [TestFixture]
     public class DictionaryMetadataFacts
     {
         [TestCase("ExistingProperty", "works")]
@@ -26,15 +27,31 @@ namespace Orc.Metadata.Tests.Models
             dictionary["IntProperty"] = 42;
 
             var metadata = metadataCollection.GetMetadata(metadataName);
-            var actualValue = metadata.GetValue(dictionary);
+            var result = metadata.GetValue(dictionary, out object actualValue);
 
+            Assert.AreEqual(result, true);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestCase("ExistingProperty", "differentValue")]
         [TestCase("StringProperty", "stringvalue")]
+        public void TheSetValueMethodString(string metadataName, string expectedValue)
+        {
+            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+
+            var dictionary = new Dictionary<string, object>();
+            dictionary["ExistingProperty"] = "works";
+            dictionary["StringProperty"] = null;
+            dictionary["IntProperty"] = 42;
+
+            var metadata = metadataCollection.GetMetadata(metadataName);
+            metadata.SetValue(dictionary, expectedValue.ToString());
+
+            Assert.AreEqual(expectedValue, dictionary[metadataName]);
+        }
+
         [TestCase("IntProperty", 1)]
-        public void TheSetValueMethod(string metadataName, object expectedValue)
+        public void TheSetValueMethodInt(string metadataName, int expectedValue)
         {
             var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
 

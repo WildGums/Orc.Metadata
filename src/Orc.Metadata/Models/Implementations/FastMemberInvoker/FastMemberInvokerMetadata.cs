@@ -10,7 +10,7 @@
             
         public FastMemberInvokerMetadata(IFastMemberInvoker fastMemberInvoker, string name, Type type)
         {
-            Argument.IsNotNull(() => _fastMemberInvoker);
+            Argument.IsNotNull(() => fastMemberInvoker);
 
             _fastMemberInvoker = fastMemberInvoker;
             Name = name;
