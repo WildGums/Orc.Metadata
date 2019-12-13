@@ -69,7 +69,7 @@ namespace Orc.Metadata
             {
                 if (dictionary.TryGetValue(_key, out var result))
                 {
-                    if (Equals(result, default(TValue)))
+                    if (ObjectHelper.AreEqual(result, default(TValue)))
                     {
                         value = default;
                         return true;

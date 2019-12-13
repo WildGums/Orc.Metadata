@@ -10,6 +10,7 @@ namespace Orc.Metadata
     using System;
     using System.Reflection;
     using Catel;
+    using Catel.Reflection;
 
     public class ReflectionMetadata : IMetadata
     {
@@ -41,7 +42,7 @@ namespace Orc.Metadata
 
         public bool GetValue<TValue>(object instance, out TValue value)
         {
-            if (instance is null || !_propertyInfo.DeclaringType.IsAssignableFrom(instance.GetType()))
+            if (instance is null || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
             {
                 value = default;
                 return false;
@@ -49,7 +50,7 @@ namespace Orc.Metadata
 
             var result = GetValue(instance);
 
-            if (Equals(result, default(TValue)))
+            if (ObjectHelper.AreEqual(result, default(TValue)))
             {
                 value = default;
                 return true;
@@ -72,7 +73,7 @@ namespace Orc.Metadata
 
         public bool SetValue<TValue>(object instance, TValue value)
         {
-            if (instance is null || !Type.IsAssignableFrom(typeof(TValue)) || !_propertyInfo.DeclaringType.IsAssignableFrom(instance.GetType()))
+            if (instance is null || !Type.IsAssignableFromEx(typeof(TValue)) || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
             {
                 return false;
             }
