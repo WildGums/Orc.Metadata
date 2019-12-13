@@ -11,42 +11,51 @@ namespace Orc.Metadata.Tests.Models
     using Factories;
     using NUnit.Framework;
 
+    [TestFixture]
     public class DictionaryMetadataFacts
     {
+        private DictionaryMetadataCollection _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+        private Dictionary<string, object> _dictionary;
+
+        public void Init()
+        {
+            _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+
+            _dictionary = new Dictionary<string, object>();
+            _dictionary["ExistingProperty"] = "works";
+            _dictionary["StringProperty"] = null;
+            _dictionary["IntProperty"] = 42;
+        }
+
         [TestCase("ExistingProperty", "works")]
         [TestCase("StringProperty", null)]
         [TestCase("IntProperty", 42)]
         public void TheGetValueMethod(string metadataName, object expectedValue)
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+            var metadata = _metadataCollection.GetMetadata(metadataName);
+            var result = metadata.GetValue(_dictionary, out object actualValue);
 
-            var dictionary = new Dictionary<string, object>();
-            dictionary["ExistingProperty"] = "works";
-            dictionary["StringProperty"] = null;
-            dictionary["IntProperty"] = 42;
-
-            var metadata = metadataCollection.GetMetadata(metadataName);
-            var actualValue = metadata.GetValue(dictionary);
-
+            Assert.AreEqual(result, true);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestCase("ExistingProperty", "differentValue")]
         [TestCase("StringProperty", "stringvalue")]
-        [TestCase("IntProperty", 1)]
-        public void TheSetValueMethod(string metadataName, object expectedValue)
+        public void TheSetValueMethodString(string metadataName, string expectedValue)
         {
-            var metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+            var metadata = _metadataCollection.GetMetadata(metadataName);
+            metadata.SetValue(_dictionary, expectedValue.ToString());
 
-            var dictionary = new Dictionary<string, object>();
-            dictionary["ExistingProperty"] = "works";
-            dictionary["StringProperty"] = null;
-            dictionary["IntProperty"] = 42;
+            Assert.AreEqual(expectedValue, _dictionary[metadataName]);
+        }
 
-            var metadata = metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(dictionary, expectedValue);
+        [TestCase("IntProperty", 1)]
+        public void TheSetValueMethodInt(string metadataName, int expectedValue)
+        {
+            var metadata = _metadataCollection.GetMetadata(metadataName);
+            metadata.SetValue(_dictionary, expectedValue);
 
-            Assert.AreEqual(expectedValue, dictionary[metadataName]);
+            Assert.AreEqual(expectedValue, _dictionary[metadataName]);
         }
     }
 }

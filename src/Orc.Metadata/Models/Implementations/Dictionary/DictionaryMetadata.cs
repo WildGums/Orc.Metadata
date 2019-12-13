@@ -52,12 +52,9 @@ namespace Orc.Metadata
         #region Methods
         public virtual object GetValue(object instance)
         {
-            //Argument.IsOfType(() => instance, typeof(IDictionary<string, object>));
-
             object result = null;
 
-            var dictionary = instance as IDictionary<string, object>;
-            if (dictionary != null)
+            if (instance is IDictionary<string, object> dictionary)
             {
                 dictionary.TryGetValue(_key, out result);
             }
@@ -65,17 +62,48 @@ namespace Orc.Metadata
             return result;
         }
 
-        public virtual void SetValue(object instance, object value)
+        public bool GetValue<TValue>(object instance, out TValue value)
         {
-            //Argument.IsOfType(() => instance, typeof(IDictionary<string, object>));
 
-            var dictionary = instance as IDictionary<string, object>;
-            if (dictionary == null)
+            if (instance is IDictionary<string, object> dictionary)
             {
-                return;
+                if (dictionary.TryGetValue(_key, out var result))
+                {
+                    if (ObjectHelper.AreEqual(result, default(TValue)))
+                    {
+                        value = default;
+                        return true;
+                    }
+
+                    if (result is TValue resultValue)
+                    {
+                        value = resultValue;
+                        return true;
+                    }
+                }
             }
 
-            dictionary[_key] = value;
+            value = default;
+            return false;
+        }
+
+        public virtual void SetValue(object instance, object value)
+        {
+            if (instance is IDictionary<string, object> dictionary)
+            {
+                dictionary[_key] = value;
+            }
+        }
+
+        public bool SetValue<TValue>(object instance, TValue value)
+        {
+            if (instance is IDictionary<string, object> dictionary)
+            {
+                dictionary[_key] = value;
+                return true;
+            }
+
+            return false;
         }
         #endregion
     }

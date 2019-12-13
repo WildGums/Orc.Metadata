@@ -27,11 +27,11 @@ namespace Orc.Metadata
                 var subObjectWithMetadata = value as IObjectWithMetadata;
                 if (subObjectWithMetadata != null)
                 {
-                    metadataValue.Value = subObjectWithMetadata.ToStaticMetadataDictionary();
+                    metadataValue.ObjectValue = subObjectWithMetadata.ToStaticMetadataDictionary();
                 }
                 else
                 {
-                    metadataValue.Value = value;
+                    metadataValue.ObjectValue = value;
                 }
 
                 dictionary.Add(metadata.Name, metadataValue);
@@ -56,10 +56,10 @@ namespace Orc.Metadata
             {
                 var value = metadataKeyValuePair.Value;
 
-                var dictionary = value.Value as Dictionary<string, IMetadataValue>;
+                var dictionary = value.ObjectValue as Dictionary<string, IMetadataValue>;
                 if (dictionary != null)
                 {
-                    value.Value = dictionary.ToStaticMetadataList();
+                    value.ObjectValue = dictionary.ToStaticMetadataList();
                 }
 
                 list.Add(value);

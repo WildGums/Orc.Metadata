@@ -1,23 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadataFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata.Tests.Models
+﻿namespace Orc.Metadata.Tests
 {
     using Catel.Reflection;
-    using Fixtures;
     using NUnit.Framework;
+    using Orc.Metadata.Tests.Fixtures;
 
     [TestFixture]
-    public class ReflectionMetadataFacts
+    public class FastMemberInvokerMetadataFacts
     {
         private ReflectionMetadataCollection _metadataCollection;
         private TestModel _model;
 
-        [OneTimeSetUp]
         public void Init()
         {
             _metadataCollection = new ReflectionMetadataCollection(typeof(TestModel));
@@ -31,11 +23,12 @@ namespace Orc.Metadata.Tests.Models
 
         }
 
+
         [TestCase("ExistingProperty", "works")]
         [TestCase("StringProperty", null)]
         [TestCase("IntProperty", 42)]
         public void TheGetValueMethod(string metadataName, object expectedValue)
-        { 
+        {
             var metadata = _metadataCollection.GetMetadata(metadataName);
             var result = metadata.GetValue(_model, out object actualValue);
 
@@ -61,6 +54,7 @@ namespace Orc.Metadata.Tests.Models
             metadata.SetValue(_model, expectedValue);
 
             Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
+
         }
     }
 }

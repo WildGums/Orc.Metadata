@@ -10,6 +10,7 @@ namespace Orc.Metadata
     using System;
     using System.Reflection;
     using Catel;
+    using Catel.Reflection;
 
     public class ReflectionMetadata : IMetadata
     {
@@ -29,9 +30,40 @@ namespace Orc.Metadata
 
         public virtual string DisplayName { get; set; }
 
+        public virtual Type Type
+        {
+            get { return _propertyInfo.PropertyType; }
+        }
+
         public virtual object GetValue(object instance)
         {
             return _propertyInfo.GetValue(instance, null);
+        }
+
+        public bool GetValue<TValue>(object instance, out TValue value)
+        {
+            if (instance is null || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
+            {
+                value = default;
+                return false;
+            }
+
+            var result = GetValue(instance);
+
+            if (ObjectHelper.AreEqual(result, default(TValue)))
+            {
+                value = default;
+                return true;
+            }
+
+            if (GetValue(instance) is TValue propertyValue)
+            {
+                value = propertyValue;
+                return true;
+            }
+
+            value = default;
+            return false;
         }
 
         public virtual void SetValue(object instance, object value)
@@ -39,9 +71,16 @@ namespace Orc.Metadata
             _propertyInfo.SetValue(instance, value, null);
         }
 
-        public virtual Type Type
+        public bool SetValue<TValue>(object instance, TValue value)
         {
-            get { return _propertyInfo.PropertyType; }
+            if (instance is null || !Type.IsAssignableFromEx(typeof(TValue)) || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
+            {
+                return false;
+            }
+
+            _propertyInfo.SetValue(instance, value, null);
+
+            return false;
         }
     }
 }
