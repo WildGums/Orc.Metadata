@@ -14,7 +14,9 @@ namespace Orc.Metadata
         public virtual string Name { get; }
         public virtual System.Type Type { get; }
         public virtual object GetValue(object instance) { }
+        public bool GetValue<TValue>(object instance, out TValue value) { }
         public virtual void SetValue(object instance, object value) { }
+        public bool SetValue<TValue>(object instance, TValue value) { }
     }
     public class DictionaryMetadataCollection : Orc.Metadata.MetadataCollectionBase
     {
@@ -28,13 +30,39 @@ namespace Orc.Metadata
         public override object GetMetadataValue(string key) { }
         public override bool SetMetadataValue(string key, object value) { }
     }
+    public class FastMemberInvokerMetadata : Orc.Metadata.IMetadata
+    {
+        public FastMemberInvokerMetadata(Catel.Reflection.IFastMemberInvoker fastMemberInvoker, string name, System.Type type) { }
+        public string DisplayName { get; set; }
+        public string Name { get; }
+        public System.Type Type { get; }
+        public object GetValue(object instance) { }
+        public bool GetValue<TValue>(object instance, out TValue value) { }
+        public void SetValue(object instance, object value) { }
+        public bool SetValue<TValue>(object instance, TValue value) { }
+    }
+    public class FastMemberInvokerMetadataCollection : Orc.Metadata.MetadataCollectionBase
+    {
+        public FastMemberInvokerMetadataCollection(Catel.Reflection.IFastMemberInvoker memberInvoker, System.Type type) { }
+        public override System.Collections.Generic.IEnumerable<Orc.Metadata.IMetadata> All { get; }
+    }
+    public class FastMemberInvokerObjectWithMetadata : Orc.Metadata.ObjectWithMetadata
+    {
+        public FastMemberInvokerObjectWithMetadata(object instance, Catel.Reflection.IFastMemberInvoker memberInvoker) { }
+    }
     public interface IMetadata
     {
         string DisplayName { get; set; }
         string Name { get; }
         System.Type Type { get; }
+        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
+            "in version 4.0.0.", true)]
         object GetValue(object instance);
+        bool GetValue<TValue>(object instance, out TValue value);
+        [System.ObsoleteAttribute("Use `bool SetValue<TValue>(object, TValue)` instead. Will be removed in version 4" +
+            ".0.0.", true)]
         void SetValue(object instance, object value);
+        bool SetValue<TValue>(object instance, TValue value);
     }
     public interface IMetadataCollection : System.Collections.Generic.IEnumerable<Orc.Metadata.IMetadata>, System.Collections.IEnumerable
     {
@@ -43,7 +71,10 @@ namespace Orc.Metadata
     }
     public class static IMetadataExtensions
     {
+        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
+            "in version 4.0.0.", true)]
         public static TValue GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance) { }
+        public static bool GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance, out TValue value, TValue defaultValue) { }
     }
     public interface IMetadataProvider
     {
@@ -52,7 +83,11 @@ namespace Orc.Metadata
     public interface IMetadataValue
     {
         Orc.Metadata.IMetadata Metadata { get; }
-        object Value { get; set; }
+        object ObjectValue { get; set; }
+    }
+    public interface IMetadataValue<TValue> : Orc.Metadata.IMetadataValue
+    {
+        TValue Value { get; set; }
     }
     public interface IObjectWithMetadata
     {
@@ -78,12 +113,19 @@ namespace Orc.Metadata
         public MetadataProvider() { }
         public virtual System.Threading.Tasks.Task<Orc.Metadata.IObjectWithMetadata> GetMetadataAsync(object obj) { }
     }
-    [System.Diagnostics.DebuggerDisplayAttribute("{Metadata.Name} => {Value}")]
+    [System.Diagnostics.DebuggerDisplayAttribute("{Metadata.Name} => {ObjectValue}")]
     public class MetadataValue : Orc.Metadata.IMetadataValue
     {
         public MetadataValue(Orc.Metadata.IMetadata metadata) { }
         public Orc.Metadata.IMetadata Metadata { get; }
-        public object Value { get; set; }
+        public virtual object ObjectValue { get; set; }
+    }
+    [System.Diagnostics.DebuggerDisplayAttribute("{Metadata.Name} => {Value}")]
+    public class MetadataValue<TValue> : Orc.Metadata.MetadataValue, Orc.Metadata.IMetadataValue, Orc.Metadata.IMetadataValue<TValue>
+    {
+        public MetadataValue(Orc.Metadata.IMetadata metadata) { }
+        public override object ObjectValue { get; set; }
+        public TValue Value { get; set; }
     }
     public class ObjectWithMetadata : Orc.Metadata.IObjectWithMetadata
     {
@@ -102,7 +144,9 @@ namespace Orc.Metadata
         public string Name { get; }
         public virtual System.Type Type { get; }
         public virtual object GetValue(object instance) { }
+        public bool GetValue<TValue>(object instance, out TValue value) { }
         public virtual void SetValue(object instance, object value) { }
+        public bool SetValue<TValue>(object instance, TValue value) { }
     }
     public class ReflectionMetadataCollection : Orc.Metadata.MetadataCollectionBase
     {
@@ -112,5 +156,13 @@ namespace Orc.Metadata
     public class ReflectionObjectWithMetadata : Orc.Metadata.ObjectWithMetadata
     {
         public ReflectionObjectWithMetadata(object instance) { }
+    }
+}
+namespace Orc.Metadata.Providers
+{
+    public class FastMemberInvokerMetadataProvider : Orc.Metadata.IMetadataProvider
+    {
+        public FastMemberInvokerMetadataProvider() { }
+        public System.Threading.Tasks.Task<Orc.Metadata.IObjectWithMetadata> GetMetadataAsync(object obj) { }
     }
 }

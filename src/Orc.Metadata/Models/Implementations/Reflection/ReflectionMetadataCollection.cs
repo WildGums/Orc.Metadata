@@ -17,7 +17,7 @@ namespace Orc.Metadata
     public class ReflectionMetadataCollection : MetadataCollectionBase
     {
         #region Fields
-        private static readonly ICacheStorage<Type, IEnumerable<IMetadata>> _metadataCache = new CacheStorage<Type, IEnumerable<IMetadata>>();
+        private static readonly ICacheStorage<Type, IEnumerable<IMetadata>> MetadataCache = new CacheStorage<Type, IEnumerable<IMetadata>>();
         private readonly IEnumerable<IMetadata> _all;
         #endregion
 
@@ -26,7 +26,7 @@ namespace Orc.Metadata
         {
             Argument.IsNotNull(() => type);
 
-            _all = _metadataCache.GetFromCacheOrFetch(type, () => type.GetPropertiesEx().Select(x => new ReflectionMetadata(x)).ToArray());
+            _all = MetadataCache.GetFromCacheOrFetch(type, () => type.GetPropertiesEx().Select(x => new ReflectionMetadata(x)).ToArray());
         }
         #endregion
 

@@ -28,6 +28,7 @@ namespace Orc.Metadata
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns>System.Instance.</returns>
+        [ObsoleteEx(ReplacementTypeOrMember = "bool GetValue<TValue>(object, out TValue, TValue)", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
         object GetValue(object instance);
 
         /// <summary>
@@ -35,7 +36,27 @@ namespace Orc.Metadata
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="value">The value.</param>
+        [ObsoleteEx(ReplacementTypeOrMember = "bool SetValue<TValue>(object, TValue)", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
         void SetValue(object instance, object value);
+
+        /// <summary>
+        /// Gets the value from the object.
+        /// </summary>
+        /// <typeparam name="TValue">Value type.</typeparam>
+        /// <param name="instance">The instance.</param>
+        /// <param name="value">The value retrieved.</param>
+        /// <returns><c>true</c> if the value was successfully retrieved; otherwise <c>false</c>.</returns>
+        bool GetValue<TValue>(object instance, out TValue value);
+
+        /// <summary>
+        /// Sets the value of the object.
+        /// </summary>
+        /// <typeparam name="TValue">Value type.</typeparam>
+        /// <param name="instance">The instance.</param>
+        /// <param name="value">The value to set.</param>
+        /// <returns><c>true</c> if the value was successfully retrieved; otherwise <c>false</c>.</returns>/param>
+        /// <returns></returns>
+        bool SetValue<TValue>(object instance, TValue value);
 
         /// <summary>
         /// Gets the type of the metadata.

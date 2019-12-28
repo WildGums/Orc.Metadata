@@ -9,9 +9,12 @@ namespace Orc.Metadata
 {
     public interface IMetadataValue
     {
-        #region Properties
         IMetadata Metadata { get; }
-        object Value { get; set; }
-        #endregion
+        object ObjectValue { get; set; }
+    }
+
+    public interface IMetadataValue<TValue> : IMetadataValue
+    {
+        TValue Value { get; set; }
     }
 }
