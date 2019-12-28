@@ -20,7 +20,7 @@
 
         private IFastMemberInvoker GetMemberInvoker(object obj)
         {
-            var invokerType = MemberInvokerTypeCache.GetFromCacheOrFetch(obj.GetType(), () => typeof(FastMemberInvoker<>).MakeGenericType(obj.GetType());
+            var invokerType = MemberInvokerTypeCache.GetFromCacheOrFetch(obj.GetType(), () => typeof(FastMemberInvoker<>).MakeGenericType(obj.GetType()));
 
             return MemberInvokerCache.GetFromCacheOrFetch(invokerType, () => (IFastMemberInvoker)Activator.CreateInstance(invokerType));
         }
