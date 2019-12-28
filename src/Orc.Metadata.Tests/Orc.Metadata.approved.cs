@@ -55,12 +55,12 @@ namespace Orc.Metadata
         string DisplayName { get; set; }
         string Name { get; }
         System.Type Type { get; }
-        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be treated " +
-            "as an error from version 3.0.0. Will be removed in version 4.0.0.", false)]
+        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
+            "in version 4.0.0.", true)]
         object GetValue(object instance);
         bool GetValue<TValue>(object instance, out TValue value);
-        [System.ObsoleteAttribute("Use `bool SetValue<TValue>(object, TValue)` instead. Will be treated as an error " +
-            "from version 3.0.0. Will be removed in version 4.0.0.", false)]
+        [System.ObsoleteAttribute("Use `bool SetValue<TValue>(object, TValue)` instead. Will be removed in version 4" +
+            ".0.0.", true)]
         void SetValue(object instance, object value);
         bool SetValue<TValue>(object instance, TValue value);
     }
@@ -71,8 +71,8 @@ namespace Orc.Metadata
     }
     public class static IMetadataExtensions
     {
-        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be treated " +
-            "as an error from version 3.0.0. Will be removed in version 4.0.0.", false)]
+        [System.ObsoleteAttribute("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
+            "in version 4.0.0.", true)]
         public static TValue GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance) { }
         public static bool GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance, out TValue value, TValue defaultValue) { }
     }
