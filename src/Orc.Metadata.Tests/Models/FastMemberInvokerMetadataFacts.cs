@@ -10,6 +10,7 @@
         private ReflectionMetadataCollection _metadataCollection;
         private TestModel _model;
 
+        [OneTimeSetUp]
         public void Init()
         {
             _metadataCollection = new ReflectionMetadataCollection(typeof(TestModel));

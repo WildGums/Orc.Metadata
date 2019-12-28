@@ -17,6 +17,7 @@ namespace Orc.Metadata.Tests.Models
         private DictionaryMetadataCollection _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
         private Dictionary<string, object> _dictionary;
 
+        [OneTimeSetUp]
         public void Init()
         {
             _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
