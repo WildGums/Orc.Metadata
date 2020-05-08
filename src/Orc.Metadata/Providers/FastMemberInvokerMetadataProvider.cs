@@ -1,4 +1,4 @@
-﻿namespace Orc.Metadata.Providers
+﻿namespace Orc.Metadata
 {
     using System;
     using System.Threading.Tasks;
