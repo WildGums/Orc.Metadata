@@ -60,13 +60,7 @@ namespace Orc.Metadata
         string DisplayName { get; set; }
         string Name { get; }
         System.Type Type { get; }
-        [System.Obsolete("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
-            "in version 4.0.0.", true)]
-        object GetValue(object instance);
         bool GetValue<TValue>(object instance, out TValue value);
-        [System.Obsolete("Use `bool SetValue<TValue>(object, TValue)` instead. Will be removed in version 4" +
-            ".0.0.", true)]
-        void SetValue(object instance, object value);
         bool SetValue<TValue>(object instance, TValue value);
     }
     public interface IMetadataCollection : System.Collections.Generic.IEnumerable<Orc.Metadata.IMetadata>, System.Collections.IEnumerable
@@ -76,9 +70,6 @@ namespace Orc.Metadata
     }
     public static class IMetadataExtensions
     {
-        [System.Obsolete("Use `bool GetValue<TValue>(object, out TValue, TValue)` instead. Will be removed " +
-            "in version 4.0.0.", true)]
-        public static TValue GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance) { }
         public static bool GetValue<TValue>(this Orc.Metadata.IMetadata metadata, object instance, out TValue value, TValue defaultValue) { }
     }
     public interface IMetadataProvider

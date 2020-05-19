@@ -9,12 +9,6 @@ namespace Orc.Metadata
 {
     public static class IMetadataExtensions
     {
-        [ObsoleteEx(ReplacementTypeOrMember = "bool GetValue<TValue>(object, out TValue, TValue)", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
-        public static TValue GetValue<TValue>(this IMetadata metadata, object instance)
-        {
-            return (TValue) metadata.GetValue(instance);
-        }
-
         /// <summary>
         /// Gets the value from the object.
         /// </summary>
