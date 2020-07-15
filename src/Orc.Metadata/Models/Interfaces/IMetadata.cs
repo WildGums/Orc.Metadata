@@ -24,22 +24,6 @@ namespace Orc.Metadata
         string DisplayName { get; set; }
 
         /// <summary>
-        /// Gets the value.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <returns>System.Instance.</returns>
-        [ObsoleteEx(ReplacementTypeOrMember = "bool GetValue<TValue>(object, out TValue, TValue)", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
-        object GetValue(object instance);
-
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="instance">The instance.</param>
-        /// <param name="value">The value.</param>
-        [ObsoleteEx(ReplacementTypeOrMember = "bool SetValue<TValue>(object, TValue)", TreatAsErrorFromVersion = "3.0", RemoveInVersion = "4.0")]
-        void SetValue(object instance, object value);
-
-        /// <summary>
         /// Gets the value from the object.
         /// </summary>
         /// <typeparam name="TValue">Value type.</typeparam>

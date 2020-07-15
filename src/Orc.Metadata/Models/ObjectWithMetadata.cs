@@ -32,18 +32,23 @@ namespace Orc.Metadata
         protected object GetMetadataValueWithInstance(object instance, string key)
         {
             var metadata = MetadataCollection.GetMetadata(key);
-            if (metadata == null)
+            if (metadata is null)
             {
                 return null;
             }
 
-            return metadata.GetValue(instance);
+            if (!metadata.GetValue<object>(instance, out var value))
+            {
+                return null;
+            }
+
+            return value;
         }
 
         protected bool SetMetadataValueWithInstance(object instance, string key, object value)
         {
             var metadata = MetadataCollection.GetMetadata(key);
-            if (metadata == null)
+            if (metadata is null)
             {
                 return false;
             }
