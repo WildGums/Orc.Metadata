@@ -1,5 +1,5 @@
 ﻿[assembly: System.Resources.NeutralResourcesLanguage("en-US")]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v3.1", FrameworkDisplayName="")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v5.0", FrameworkDisplayName="")]
 public static class ModuleInitializer
 {
     public static void Initialize() { }
@@ -102,7 +102,7 @@ namespace Orc.Metadata
     {
         protected MetadataCollectionBase() { }
         public abstract System.Collections.Generic.IEnumerable<Orc.Metadata.IMetadata> All { get; }
-        public virtual Orc.Metadata.IMetadata GetMetadata(string metadataName) { }
+        public virtual Orc.Metadata.IMetadata GetMetadata(string propertyName) { }
     }
     public class MetadataProvider : Orc.Metadata.IMetadataProvider
     {
