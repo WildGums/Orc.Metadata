@@ -18,7 +18,7 @@
             return TaskHelper<IObjectWithMetadata>.FromResult(new FastMemberInvokerObjectWithMetadata(obj, memberInvoker));
         }
 
-        private IFastMemberInvoker GetMemberInvoker(object obj)
+        private static IFastMemberInvoker GetMemberInvoker(object obj)
         {
             var invokerType = MemberInvokerTypeCache.GetFromCacheOrFetch(obj.GetType(), () => typeof(FastMemberInvoker<>).MakeGenericType(obj.GetType()));
 

@@ -102,7 +102,7 @@ namespace Orc.Metadata
     {
         protected MetadataCollectionBase() { }
         public abstract System.Collections.Generic.IEnumerable<Orc.Metadata.IMetadata> All { get; }
-        public virtual Orc.Metadata.IMetadata GetMetadata(string metadataName) { }
+        public virtual Orc.Metadata.IMetadata GetMetadata(string propertyName) { }
     }
     public class MetadataProvider : Orc.Metadata.IMetadataProvider
     {
