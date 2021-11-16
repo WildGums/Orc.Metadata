@@ -25,7 +25,7 @@ namespace Orc.Metadata
                 var metadataValue = new MetadataValue(metadata);
 
                 var subObjectWithMetadata = value as IObjectWithMetadata;
-                if (subObjectWithMetadata != null)
+                if (subObjectWithMetadata is not null)
                 {
                     metadataValue.ObjectValue = subObjectWithMetadata.ToStaticMetadataDictionary();
                 }
@@ -57,7 +57,7 @@ namespace Orc.Metadata
                 var value = metadataKeyValuePair.Value;
 
                 var dictionary = value.ObjectValue as Dictionary<string, IMetadataValue>;
-                if (dictionary != null)
+                if (dictionary is not null)
                 {
                     value.ObjectValue = dictionary.ToStaticMetadataList();
                 }
