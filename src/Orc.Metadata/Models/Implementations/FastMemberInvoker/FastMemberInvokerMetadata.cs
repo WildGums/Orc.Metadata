@@ -28,7 +28,7 @@
         {
             object result = null;
 
-            if (instance != null)
+            if (instance is not null)
             {
                 _fastMemberInvoker.TryGetPropertyValue(instance, Name, out result);
             }
