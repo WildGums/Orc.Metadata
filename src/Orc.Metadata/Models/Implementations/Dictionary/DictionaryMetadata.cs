@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     using System;
     using System.Collections.Generic;
@@ -13,29 +6,19 @@ namespace Orc.Metadata
 
     public class DictionaryMetadata : IMetadata
     {
-        #region Fields
         private readonly Type _expectedType;
         private readonly string _key;
-        #endregion
-
-        #region Constructors
-        public DictionaryMetadata()
-        {
-        }
 
         public DictionaryMetadata(string key, Type expectedType)
-            : this()
         {
-            Argument.IsNotNull(() => key);
-            Argument.IsNotNull(() => expectedType);
+            ArgumentNullException.ThrowIfNull(key);
+            ArgumentNullException.ThrowIfNull(expectedType);
 
             _key = key;
             DisplayName = key;
             _expectedType = expectedType;
         }
-        #endregion
 
-        #region Properties
         public virtual string DisplayName { get; set; }
 
         public virtual string Name
@@ -47,24 +30,22 @@ namespace Orc.Metadata
         {
             get { return _expectedType; }
         }
-        #endregion
 
-        #region Methods
-        public virtual object GetValue(object instance)
+        public virtual bool TryGetValue(object instance, out object? value)
         {
-            object result = null;
+            value = null;
 
-            if (instance is IDictionary<string, object> dictionary)
+            if (instance is IDictionary<string, object?> dictionary)
             {
-                dictionary.TryGetValue(_key, out result);
+                return dictionary.TryGetValue(_key, out value);
             }
 
-            return result;
+            return false;
         }
 
-        public bool GetValue<TValue>(object instance, out TValue value)
+        public bool TryGetValue<TValue>(object instance, out TValue? value)
         {
-            if (instance is IDictionary<string, object> dictionary 
+            if (instance is IDictionary<string, object?> dictionary 
                 && dictionary.TryGetValue(_key, out var result))
             {
                 if (ObjectHelper.AreEqual(result, default(TValue)))
@@ -84,17 +65,9 @@ namespace Orc.Metadata
             return false;
         }
 
-        public virtual void SetValue(object instance, object value)
+        public virtual bool TrySetValue(object instance, object? value)
         {
-            if (instance is IDictionary<string, object> dictionary)
-            {
-                dictionary[_key] = value;
-            }
-        }
-
-        public bool SetValue<TValue>(object instance, TValue value)
-        {
-            if (instance is IDictionary<string, object> dictionary)
+            if (instance is IDictionary<string, object?> dictionary)
             {
                 dictionary[_key] = value;
                 return true;
@@ -102,6 +75,16 @@ namespace Orc.Metadata
 
             return false;
         }
-        #endregion
+
+        public bool TrySetValue<TValue>(object instance, TValue? value)
+        {
+            if (instance is IDictionary<string, object?> dictionary)
+            {
+                dictionary[_key] = value;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

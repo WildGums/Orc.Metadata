@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReflectionMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     using System;
     using System.Reflection;
@@ -18,7 +11,7 @@ namespace Orc.Metadata
 
         public ReflectionMetadata(PropertyInfo propertyInfo)
         {
-            Argument.IsNotNull(() => propertyInfo);
+            ArgumentNullException.ThrowIfNull(propertyInfo);
 
             _propertyInfo = propertyInfo;
 
@@ -35,28 +28,37 @@ namespace Orc.Metadata
             get { return _propertyInfo.PropertyType; }
         }
 
-        public virtual object GetValue(object instance)
+        public virtual bool TryGetValue(object instance, out object? value)
         {
-            return _propertyInfo.GetValue(instance, null);
+            ArgumentNullException.ThrowIfNull(instance);
+
+            value = _propertyInfo.GetValue(instance, null);
+            return true;
         }
 
-        public bool GetValue<TValue>(object instance, out TValue value)
+        public bool TryGetValue<TValue>(object instance, out TValue? value)
         {
-            if (instance is null || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
+            ArgumentNullException.ThrowIfNull(instance);
+
+            if (!_propertyInfo.DeclaringType?.IsAssignableFromEx(instance.GetType()) ?? false)
             {
                 value = default;
                 return false;
             }
 
-            var result = GetValue(instance);
+            if (!TryGetValue(instance, out object? objectValue))
+            {
+                value = default;
+                return false;
+            }
 
-            if (ObjectHelper.AreEqual(result, default(TValue)))
+            if (ObjectHelper.AreEqual(objectValue, default(TValue)))
             {
                 value = default;
                 return true;
             }
 
-            if (GetValue(instance) is TValue propertyValue)
+            if (objectValue is TValue propertyValue)
             {
                 value = propertyValue;
                 return true;
@@ -66,21 +68,22 @@ namespace Orc.Metadata
             return false;
         }
 
-        public virtual void SetValue(object instance, object value)
+        public virtual bool TrySetValue(object instance, object? value)
         {
             _propertyInfo.SetValue(instance, value, null);
+            return true;
         }
 
-        public bool SetValue<TValue>(object instance, TValue value)
+        public bool TrySetValue<TValue>(object instance, TValue value)
         {
-            if (instance is null || !Type.IsAssignableFromEx(typeof(TValue)) || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
+            if (!Type.IsAssignableFromEx(typeof(TValue)) || (!_propertyInfo.DeclaringType?.IsAssignableFromEx(instance.GetType()) ?? false))
             {
                 return false;
             }
 
             _propertyInfo.SetValue(instance, value, null);
 
-            return false;
+            return true;
         }
     }
 }

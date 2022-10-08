@@ -1,26 +1,22 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IObjectWithMetadataExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
+    using System;
     using System.Collections.Generic;
-    using Catel;
 
     public static class IObjectWithMetadataExtensions
     {
         public static Dictionary<string, IMetadataValue> ToStaticMetadataDictionary(this IObjectWithMetadata objectWithMetadata)
         {
-            Argument.IsNotNull(() => objectWithMetadata);
+            ArgumentNullException.ThrowIfNull(objectWithMetadata);
 
             var dictionary = new Dictionary<string, IMetadataValue>();
 
             foreach (var metadata in objectWithMetadata.MetadataCollection)
             {
-                var value = objectWithMetadata.GetMetadataValue(metadata.Name);
+                if (!objectWithMetadata.TryGetMetadataValue(metadata.Name, out var value))
+                {
+                    continue;
+                }
 
                 var metadataValue = new MetadataValue(metadata);
 
@@ -42,7 +38,7 @@ namespace Orc.Metadata
 
         public static List<IMetadataValue> ToStaticMetadataList(this IObjectWithMetadata objectWithMetadata)
         {
-            Argument.IsNotNull(() => objectWithMetadata);
+            ArgumentNullException.ThrowIfNull(objectWithMetadata);
 
             var metadataDictionary = objectWithMetadata.ToStaticMetadataDictionary();
             return metadataDictionary.ToStaticMetadataList();
@@ -50,6 +46,8 @@ namespace Orc.Metadata
 
         public static List<IMetadataValue> ToStaticMetadataList(this Dictionary<string, IMetadataValue> metadataDictionary)
         {
+            ArgumentNullException.ThrowIfNull(metadataDictionary);
+
             var list = new List<IMetadataValue>();
 
             foreach (var metadataKeyValuePair in metadataDictionary)

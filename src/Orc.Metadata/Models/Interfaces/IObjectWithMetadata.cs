@@ -1,18 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IObjectWithMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     public interface IObjectWithMetadata
     {
         object Instance { get; }
         IMetadataCollection MetadataCollection { get; }
 
-        object GetMetadataValue(string key);
-        bool SetMetadataValue(string key, object value);
+        bool TryGetMetadataValue(string key, out object? value);
+        bool TrySetMetadataValue(string key, object? value);
     }
 }

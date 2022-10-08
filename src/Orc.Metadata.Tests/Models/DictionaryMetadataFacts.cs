@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadataFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata.Tests.Models
+﻿namespace Orc.Metadata.Tests.Models
 {
     using System.Collections.Generic;
     using Factories;
@@ -34,7 +27,7 @@ namespace Orc.Metadata.Tests.Models
         public void TheGetValueMethod(string metadataName, object expectedValue)
         {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            var result = metadata.GetValue(_dictionary, out object actualValue);
+            var result = metadata.TryGetValue(_dictionary, out object actualValue);
 
             Assert.AreEqual(result, true);
             Assert.AreEqual(expectedValue, actualValue);
@@ -45,8 +38,9 @@ namespace Orc.Metadata.Tests.Models
         public void TheSetValueMethodString(string metadataName, string expectedValue)
         {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_dictionary, expectedValue.ToString());
+            var result = metadata.TrySetValue(_dictionary, expectedValue.ToString());
 
+            Assert.IsTrue(result);
             Assert.AreEqual(expectedValue, _dictionary[metadataName]);
         }
 
@@ -54,8 +48,9 @@ namespace Orc.Metadata.Tests.Models
         public void TheSetValueMethodInt(string metadataName, int expectedValue)
         {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_dictionary, expectedValue);
+            var result = metadata.TrySetValue(_dictionary, expectedValue);
 
+            Assert.IsTrue(result);
             Assert.AreEqual(expectedValue, _dictionary[metadataName]);
         }
     }

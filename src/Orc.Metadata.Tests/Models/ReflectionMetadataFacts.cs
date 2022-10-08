@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadataFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata.Tests.Models
+﻿namespace Orc.Metadata.Tests.Models
 {
     using Catel.Reflection;
     using Fixtures;
@@ -28,7 +21,6 @@ namespace Orc.Metadata.Tests.Models
                 StringProperty = null,
                 IntProperty = 42
             };
-
         }
 
         [TestCase("ExistingProperty", "works")]
@@ -37,7 +29,7 @@ namespace Orc.Metadata.Tests.Models
         public void TheGetValueMethod(string metadataName, object expectedValue)
         { 
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            var result = metadata.GetValue(_model, out object actualValue);
+            var result = metadata.TryGetValue(_model, out object actualValue);
 
             Assert.AreEqual(expectedValue, actualValue);
             Assert.AreEqual(result, true);
@@ -49,8 +41,9 @@ namespace Orc.Metadata.Tests.Models
         public void TheSetValueMethodString(string metadataName, string expectedValue)
         {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
+            var result = metadata.TrySetValue(_model, expectedValue);
 
+            Assert.IsTrue(result);
             Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
         }
 
@@ -58,8 +51,9 @@ namespace Orc.Metadata.Tests.Models
         public void TheSetValueMethodInt(string metadataName, int expectedValue)
         {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
+            var result = metadata.TrySetValue(_model, expectedValue);
 
+            Assert.IsTrue(result);
             Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
         }
     }

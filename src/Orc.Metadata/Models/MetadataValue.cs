@@ -1,12 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetadataValue.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
+    using System;
     using System.Diagnostics;
 
     [DebuggerDisplay("{Metadata.Name} => {ObjectValue}")]
@@ -14,12 +8,14 @@ namespace Orc.Metadata
     {
         public MetadataValue(IMetadata metadata)
         {
+            ArgumentNullException.ThrowIfNull(metadata);
+
             Metadata = metadata;
         }
 
         public IMetadata Metadata { get; private set; }
 
-        public virtual object ObjectValue { get; set; }
+        public virtual object? ObjectValue { get; set; }
     }
 
     [DebuggerDisplay("{Metadata.Name} => {Value}")]
@@ -30,12 +26,12 @@ namespace Orc.Metadata
         {
         }
 
-        public TValue Value { get; set; }
+        public TValue? Value { get; set; }
 
-        public override object ObjectValue
+        public override object? ObjectValue
         {
-            get => (object)Value;
-            set => Value = (TValue)value;
+            get => (object?)Value;
+            set => Value = (TValue?)value;
         }
     }
 }

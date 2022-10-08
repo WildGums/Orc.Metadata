@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ObjectWithMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     public class ObjectWithMetadata : IObjectWithMetadata
     {
@@ -19,33 +12,30 @@ namespace Orc.Metadata
 
         public IMetadataCollection MetadataCollection { get; private set; }
 
-        public virtual object GetMetadataValue(string key)
+        public virtual bool TryGetMetadataValue(string key, out object? value)
         {
-            return GetMetadataValueWithInstance(Instance, key);
+            return TryGetMetadataValueWithInstance(Instance, key, out value);
         }
 
-        public virtual bool SetMetadataValue(string key, object value)
+        public virtual bool TrySetMetadataValue(string key, object? value)
         {
-            return SetMetadataValueWithInstance(Instance, key, value);
+            return TrySetMetadataValueWithInstance(Instance, key, value);
         }
 
-        protected object GetMetadataValueWithInstance(object instance, string key)
+        protected bool TryGetMetadataValueWithInstance(object instance, string key, out object? value)
         {
+            value = null;
+
             var metadata = MetadataCollection.GetMetadata(key);
             if (metadata is null)
             {
-                return null;
+                return false;
             }
 
-            if (!metadata.GetValue<object>(instance, out var value))
-            {
-                return null;
-            }
-
-            return value;
+            return metadata.TryGetValue<object?>(instance, out value);
         }
 
-        protected bool SetMetadataValueWithInstance(object instance, string key, object value)
+        protected bool TrySetMetadataValueWithInstance(object instance, string key, object? value)
         {
             var metadata = MetadataCollection.GetMetadata(key);
             if (metadata is null)
@@ -53,7 +43,7 @@ namespace Orc.Metadata
                 return false;
             }
 
-            metadata.SetValue(instance, value);
+            metadata.TrySetValue(instance, value);
             return true;
         }
     }

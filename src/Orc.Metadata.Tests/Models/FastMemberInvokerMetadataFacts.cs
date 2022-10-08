@@ -8,33 +8,30 @@
     public class FastMemberInvokerMetadataFacts
     {
         private ReflectionMetadataCollection _metadataCollection;
-        private TestModel _model;
 
         [OneTimeSetUp]
         public void Init()
         {
             _metadataCollection = new ReflectionMetadataCollection(typeof(TestModel));
+        }
 
-            _model = new TestModel
+        [TestCase("ExistingProperty", "works")]
+        [TestCase("StringProperty", null)]
+        [TestCase("IntProperty", 42)]
+        public void TheTryGetValueMethod(string metadataName, object expectedValue)
+        {
+            var model = new TestModel
             {
                 ExistingProperty = "works",
                 StringProperty = null,
                 IntProperty = 42
             };
 
-        }
-
-
-        [TestCase("ExistingProperty", "works")]
-        [TestCase("StringProperty", null)]
-        [TestCase("IntProperty", 42)]
-        public void TheGetValueMethod(string metadataName, object expectedValue)
-        {
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            var result = metadata.GetValue(_model, out object actualValue);
+            var result = metadata.TryGetValue(model, out object actualValue);
 
+            Assert.IsTrue(result);
             Assert.AreEqual(expectedValue, actualValue);
-            Assert.AreEqual(result, true);
         }
 
         [TestCase("ExistingProperty", "differentValue")]
@@ -42,20 +39,35 @@
 
         public void TheSetValueMethodString(string metadataName, string expectedValue)
         {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
+            var model = new TestModel
+            {
+                ExistingProperty = "works",
+                StringProperty = null,
+                IntProperty = 42
+            };
 
-            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
+            var metadata = _metadataCollection.GetMetadata(metadataName);
+            var result = metadata.TrySetValue(model, expectedValue);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName, false));
         }
 
         [TestCase("IntProperty", 1)]
         public void TheSetValueMethodInt(string metadataName, int expectedValue)
         {
+            var model = new TestModel
+            {
+                ExistingProperty = "works",
+                StringProperty = null,
+                IntProperty = 42
+            };
+
             var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
+            var result = metadata.TrySetValue(model, expectedValue);
 
-            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
-
+            Assert.IsTrue(result);
+            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName, false));
         }
     }
 }

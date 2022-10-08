@@ -1,12 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMetadataExtensions.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
+    using System;
+
     public static class IMetadataExtensions
     {
         /// <summary>
@@ -18,9 +13,12 @@ namespace Orc.Metadata
         /// <param name="value">The value retrieved.</param>
         /// <param name="defaultValue">The default value which will be assigned to <paramref name="value"/> if the value is not retreived successfully.</param>
         /// <returns><c>true</c> if the value was successfully retrieved; otherwise <c>false</c>.</returns>
-        public static bool GetValue<TValue>(this IMetadata metadata, object instance, out TValue value, TValue defaultValue)
+        public static bool TryGetValue<TValue>(this IMetadata metadata, object instance, out TValue? value, TValue? defaultValue = default)
         {
-            if (!metadata.GetValue<TValue>(instance, out value))
+            ArgumentNullException.ThrowIfNull(metadata);
+            ArgumentNullException.ThrowIfNull(instance);
+            
+            if (!metadata.TryGetValue<TValue>(instance, out value))
             {
                 value = defaultValue;
                 return false;

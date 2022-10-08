@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetadataCollectionBase.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -15,7 +8,7 @@ namespace Orc.Metadata
     {
         public abstract IEnumerable<IMetadata> All { get; }
 
-        public virtual IMetadata GetMetadata(string propertyName)
+        public virtual IMetadata? GetMetadata(string propertyName)
         {
             return All.FirstOrDefault(x => string.Equals(x.Name, propertyName));
         }

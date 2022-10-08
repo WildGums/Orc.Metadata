@@ -10,7 +10,7 @@
 
         public FastMemberInvokerMetadata(IFastMemberInvoker fastMemberInvoker, string name, Type type)
         {
-            Argument.IsNotNull(() => fastMemberInvoker);
+            ArgumentNullException.ThrowIfNull(fastMemberInvoker);
 
             _fastMemberInvoker = fastMemberInvoker;
             Name = name;
@@ -24,47 +24,32 @@
 
         public Type Type { get; }
 
-        public object GetValue(object instance)
+        public bool TryGetValue(object instance, out object? value)
         {
-            object result = null;
-
-            if (instance is not null)
-            {
-                _fastMemberInvoker.TryGetPropertyValue(instance, Name, out result);
-            }
-
-            return result;
-        }
-
-        public void SetValue(object instance, object value)
-        {
-            if (instance is null)
-            {
-                return;
-            }
-
-            _fastMemberInvoker.SetPropertyValue(instance, Name, value);
-        }
-
-        public bool GetValue<TValue>(object instance, out TValue value)
-        {
-            if (instance is null)
-            {
-                value = default;
-                return false;
-            }
+            ArgumentNullException.ThrowIfNull(instance);
 
             return _fastMemberInvoker.TryGetPropertyValue(instance, Name, out value);
         }
 
-        public bool SetValue<TValue>(object instance, TValue value)
+        public bool TrySetValue(object instance, object value)
         {
-            if (instance is null)
-            {
-                return false;
-            }
+            ArgumentNullException.ThrowIfNull(instance);
 
-            return _fastMemberInvoker.SetPropertyValue(instance, Name, value);
+            return _fastMemberInvoker.TrySetPropertyValue(instance, Name, value);
+        }
+
+        public bool TryGetValue<TValue>(object instance, out TValue value)
+        {
+            ArgumentNullException.ThrowIfNull(instance);
+
+            return _fastMemberInvoker.TryGetPropertyValue(instance, Name, out value);
+        }
+
+        public bool TrySetValue<TValue>(object instance, TValue value)
+        {
+            ArgumentNullException.ThrowIfNull(instance);
+
+            return _fastMemberInvoker.TrySetPropertyValue(instance, Name, value);
         }
     }
 }

@@ -14,8 +14,8 @@
 
         public FastMemberInvokerMetadataCollection(IFastMemberInvoker memberInvoker, Type type)
         {
-            Argument.IsNotNull(() => memberInvoker);
-            Argument.IsNotNull(() => type);
+            ArgumentNullException.ThrowIfNull(memberInvoker);
+            ArgumentNullException.ThrowIfNull(type);
 
             // Note: maybe support Fields as well
 

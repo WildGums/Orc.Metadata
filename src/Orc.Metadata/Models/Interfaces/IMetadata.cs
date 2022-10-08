@@ -1,13 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata
+﻿namespace Orc.Metadata
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     public interface IMetadata
     {
@@ -30,7 +24,7 @@ namespace Orc.Metadata
         /// <param name="instance">The instance.</param>
         /// <param name="value">The value retrieved.</param>
         /// <returns><c>true</c> if the value was successfully retrieved; otherwise <c>false</c>.</returns>
-        bool GetValue<TValue>(object instance, out TValue value);
+        bool TryGetValue<TValue>(object instance, out TValue? value);
 
         /// <summary>
         /// Sets the value of the object.
@@ -40,7 +34,7 @@ namespace Orc.Metadata
         /// <param name="value">The value to set.</param>
         /// <returns><c>true</c> if the value was successfully retrieved; otherwise <c>false</c>.</returns>/param>
         /// <returns></returns>
-        bool SetValue<TValue>(object instance, TValue value);
+        bool TrySetValue<TValue>(object instance, TValue value);
 
         /// <summary>
         /// Gets the type of the metadata.
