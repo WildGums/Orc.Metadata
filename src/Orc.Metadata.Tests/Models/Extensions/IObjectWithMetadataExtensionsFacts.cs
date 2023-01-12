@@ -1,11 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IObjectWithMetadataExtensionsFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace Orc.Metadata.Tests.Models
+﻿namespace Orc.Metadata.Tests.Models
 {
     using System.Collections.Generic;
     using Factories;
