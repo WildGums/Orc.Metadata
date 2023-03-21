@@ -1,11 +1,10 @@
-﻿namespace Orc.Metadata
+﻿namespace Orc.Metadata;
+
+using System.Collections.Generic;
+
+public interface IMetadataCollection : IEnumerable<IMetadata>
 {
-    using System.Collections.Generic;
+    IEnumerable<IMetadata> All { get; }
 
-    public interface IMetadataCollection : IEnumerable<IMetadata>
-    {
-        IEnumerable<IMetadata> All { get; }
-
-        IMetadata? GetMetadata(string propertyName);
-    }
+    IMetadata? GetMetadata(string propertyName);
 }
