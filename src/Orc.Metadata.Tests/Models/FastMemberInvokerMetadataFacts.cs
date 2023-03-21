@@ -2,7 +2,7 @@
 
 using Catel.Reflection;
 using NUnit.Framework;
-using Orc.Metadata.Tests.Fixtures;
+using Fixtures;
 
 [TestFixture]
 public class FastMemberInvokerMetadataFacts
