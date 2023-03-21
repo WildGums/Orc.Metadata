@@ -1,9 +1,8 @@
-﻿namespace Orc.Metadata
-{
-    using System.Threading.Tasks;
+﻿namespace Orc.Metadata;
 
-    public interface IMetadataProvider
-    {
-        Task<IObjectWithMetadata> GetMetadataAsync(object obj);
-    }
+using System.Threading.Tasks;
+
+public interface IMetadataProvider
+{
+    Task<IObjectWithMetadata> GetMetadataAsync(object obj);
 }

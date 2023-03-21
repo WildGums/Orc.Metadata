@@ -1,90 +1,89 @@
-﻿namespace Orc.Metadata
+﻿namespace Orc.Metadata;
+
+using System;
+using System.Collections.Generic;
+using Catel;
+
+public class DictionaryMetadata : IMetadata
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel;
+    private readonly Type _expectedType;
+    private readonly string _key;
 
-    public class DictionaryMetadata : IMetadata
+    public DictionaryMetadata(string key, Type expectedType)
     {
-        private readonly Type _expectedType;
-        private readonly string _key;
+        ArgumentNullException.ThrowIfNull(key);
+        ArgumentNullException.ThrowIfNull(expectedType);
 
-        public DictionaryMetadata(string key, Type expectedType)
+        _key = key;
+        DisplayName = key;
+        _expectedType = expectedType;
+    }
+
+    public virtual string DisplayName { get; set; }
+
+    public virtual string Name
+    {
+        get { return _key; }
+    }
+
+    public virtual Type Type
+    {
+        get { return _expectedType; }
+    }
+
+    public virtual bool TryGetValue(object instance, out object? value)
+    {
+        value = null;
+
+        if (instance is IDictionary<string, object?> dictionary)
         {
-            ArgumentNullException.ThrowIfNull(key);
-            ArgumentNullException.ThrowIfNull(expectedType);
-
-            _key = key;
-            DisplayName = key;
-            _expectedType = expectedType;
+            return dictionary.TryGetValue(_key, out value);
         }
 
-        public virtual string DisplayName { get; set; }
+        return false;
+    }
 
-        public virtual string Name
+    public bool TryGetValue<TValue>(object instance, out TValue? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary 
+            && dictionary.TryGetValue(_key, out var result))
         {
-            get { return _key; }
-        }
-
-        public virtual Type Type
-        {
-            get { return _expectedType; }
-        }
-
-        public virtual bool TryGetValue(object instance, out object? value)
-        {
-            value = null;
-
-            if (instance is IDictionary<string, object?> dictionary)
+            if (ObjectHelper.AreEqual(result, default(TValue)))
             {
-                return dictionary.TryGetValue(_key, out value);
-            }
-
-            return false;
-        }
-
-        public bool TryGetValue<TValue>(object instance, out TValue? value)
-        {
-            if (instance is IDictionary<string, object?> dictionary 
-                && dictionary.TryGetValue(_key, out var result))
-            {
-                if (ObjectHelper.AreEqual(result, default(TValue)))
-                {
-                    value = default;
-                    return true;
-                }
-
-                if (result is TValue resultValue)
-                {
-                    value = resultValue;
-                    return true;
-                }
-            }
-
-            value = default;
-            return false;
-        }
-
-        public virtual bool TrySetValue(object instance, object? value)
-        {
-            if (instance is IDictionary<string, object?> dictionary)
-            {
-                dictionary[_key] = value;
+                value = default;
                 return true;
             }
 
-            return false;
-        }
-
-        public bool TrySetValue<TValue>(object instance, TValue? value)
-        {
-            if (instance is IDictionary<string, object?> dictionary)
+            if (result is TValue resultValue)
             {
-                dictionary[_key] = value;
+                value = resultValue;
                 return true;
             }
-
-            return false;
         }
+
+        value = default;
+        return false;
+    }
+
+    public virtual bool TrySetValue(object instance, object? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary)
+        {
+            dictionary[_key] = value;
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool TrySetValue<TValue>(object instance, TValue? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary)
+        {
+            dictionary[_key] = value;
+            return true;
+        }
+
+        return false;
     }
 }

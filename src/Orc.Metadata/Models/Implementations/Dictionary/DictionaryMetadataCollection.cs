@@ -1,29 +1,28 @@
-﻿namespace Orc.Metadata
+﻿namespace Orc.Metadata;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class DictionaryMetadataCollection : MetadataCollectionBase
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    private readonly List<IMetadata> _metadata;
 
-    public class DictionaryMetadataCollection : MetadataCollectionBase
+    public DictionaryMetadataCollection()
     {
-        private readonly List<IMetadata> _metadata;
+        _metadata = new List<IMetadata>();
+    }
 
-        public DictionaryMetadataCollection()
-        {
-            _metadata = new List<IMetadata>();
-        }
+    public DictionaryMetadataCollection(Dictionary<string, Type> dictionarySchema)
+        : this()
+    {
+        ArgumentNullException.ThrowIfNull(dictionarySchema);
 
-        public DictionaryMetadataCollection(Dictionary<string, Type> dictionarySchema)
-            : this()
-        {
-            ArgumentNullException.ThrowIfNull(dictionarySchema);
+        _metadata = dictionarySchema.Select(kvp => new DictionaryMetadata(kvp.Key, kvp.Value)).Cast<IMetadata>().ToList();
+    }
 
-            _metadata = dictionarySchema.Select(kvp => new DictionaryMetadata(kvp.Key, kvp.Value)).Cast<IMetadata>().ToList();
-        }
-
-        public override IEnumerable<IMetadata> All
-        {
-            get { return _metadata; }
-        }
+    public override IEnumerable<IMetadata> All
+    {
+        get { return _metadata; }
     }
 }
