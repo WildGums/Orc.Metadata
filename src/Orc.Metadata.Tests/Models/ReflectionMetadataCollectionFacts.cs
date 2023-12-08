@@ -14,10 +14,10 @@ public class ReflectionMetadataCollectionFacts
 
         var all = metadataCollection.All.ToList();
 
-        Assert.AreEqual(3, all.Count);
-        Assert.AreEqual("StringProperty", all[0].Name);
-        Assert.AreEqual("IntProperty", all[1].Name);
-        Assert.AreEqual("ExistingProperty", all[2].Name);
+        Assert.That(all.Count, Is.EqualTo(3));
+        Assert.That(all[0].Name, Is.EqualTo("StringProperty"));
+        Assert.That(all[1].Name, Is.EqualTo("IntProperty"));
+        Assert.That(all[2].Name, Is.EqualTo("ExistingProperty"));
     }
 
     [TestCase("ExistingProperty", true)]
@@ -31,11 +31,11 @@ public class ReflectionMetadataCollectionFacts
 
         if (shouldExist)
         {
-            Assert.IsNotNull(metadata);
+            Assert.That(metadata, Is.Not.Null);
         }
         else
         {
-            Assert.IsNull(metadata);
+            Assert.That(metadata, Is.Null);
         }
     }
 }

@@ -29,8 +29,8 @@ public class DictionaryMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TryGetValue(_dictionary, out object actualValue);
 
-        Assert.AreEqual(result, true);
-        Assert.AreEqual(expectedValue, actualValue);
+        Assert.That(result, Is.EqualTo(true));
+        Assert.That(actualValue, Is.EqualTo(expectedValue));
     }
 
     [TestCase("ExistingProperty", "differentValue")]
@@ -40,8 +40,8 @@ public class DictionaryMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(_dictionary, expectedValue.ToString());
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, _dictionary[metadataName]);
+        Assert.That(result, Is.True);
+        Assert.That(_dictionary[metadataName], Is.EqualTo(expectedValue));
     }
 
     [TestCase("IntProperty", 1)]
@@ -50,7 +50,7 @@ public class DictionaryMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(_dictionary, expectedValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, _dictionary[metadataName]);
+        Assert.That(result, Is.True);
+        Assert.That(_dictionary[metadataName], Is.EqualTo(expectedValue));
     }
 }

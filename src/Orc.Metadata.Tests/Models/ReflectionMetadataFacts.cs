@@ -31,8 +31,8 @@ public class ReflectionMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TryGetValue(_model, out object actualValue);
 
-        Assert.AreEqual(expectedValue, actualValue);
-        Assert.AreEqual(result, true);
+        Assert.That(actualValue, Is.EqualTo(expectedValue));
+        Assert.That(result, Is.True);
     }
 
     [TestCase("ExistingProperty", "differentValue")]
@@ -43,8 +43,8 @@ public class ReflectionMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(_model, expectedValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName));
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(_model, metadataName), Is.EqualTo(expectedValue));
     }
 
     [TestCase("IntProperty", 1)]
@@ -53,7 +53,7 @@ public class ReflectionMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(_model, expectedValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName));
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(_model, metadataName), Is.EqualTo(expectedValue));
     }
 }

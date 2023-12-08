@@ -30,8 +30,8 @@ public class FastMemberInvokerMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TryGetValue(model, out object actualValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, actualValue);
+        Assert.That(result, Is.True);
+        Assert.That(actualValue, Is.EqualTo(expectedValue));
     }
 
     [TestCase("ExistingProperty", "differentValue")]
@@ -49,8 +49,8 @@ public class FastMemberInvokerMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(model, expectedValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName, false));
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(model, metadataName, false), Is.EqualTo(expectedValue));
     }
 
     [TestCase("IntProperty", 1)]
@@ -66,7 +66,7 @@ public class FastMemberInvokerMetadataFacts
         var metadata = _metadataCollection.GetMetadata(metadataName);
         var result = metadata.TrySetValue(model, expectedValue);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(model, metadataName, false));
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(model, metadataName, false), Is.EqualTo(expectedValue));
     }
 }
