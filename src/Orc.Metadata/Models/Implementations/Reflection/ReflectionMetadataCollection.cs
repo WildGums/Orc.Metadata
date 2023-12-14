@@ -1,40 +1,25 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReflectionMetadataCollection.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Catel.Caching;
+using Catel.Reflection;
 
-namespace Orc.Metadata
+public class ReflectionMetadataCollection : MetadataCollectionBase
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Catel;
-    using Catel.Caching;
-    using Catel.Reflection;
-
-    public class ReflectionMetadataCollection : MetadataCollectionBase
+    private static readonly ICacheStorage<Type, IEnumerable<IMetadata>> MetadataCache = new CacheStorage<Type, IEnumerable<IMetadata>>();
+    private readonly IEnumerable<IMetadata> _all;
+  
+    public ReflectionMetadataCollection(Type type)
     {
-        #region Fields
-        private static readonly ICacheStorage<Type, IEnumerable<IMetadata>> MetadataCache = new CacheStorage<Type, IEnumerable<IMetadata>>();
-        private readonly IEnumerable<IMetadata> _all;
-        #endregion
+        ArgumentNullException.ThrowIfNull(type);
 
-        #region Constructors
-        public ReflectionMetadataCollection(Type type)
-        {
-            Argument.IsNotNull(() => type);
+        _all = MetadataCache.GetFromCacheOrFetch(type, () => type.GetPropertiesEx().Select(x => new ReflectionMetadata(x)).ToArray());
+    }
 
-            _all = MetadataCache.GetFromCacheOrFetch(type, () => type.GetPropertiesEx().Select(x => new ReflectionMetadata(x)).ToArray());
-        }
-        #endregion
-
-        #region Properties
-        public override IEnumerable<IMetadata> All
-        {
-            get { return _all; }
-        }
-        #endregion
+    public override IEnumerable<IMetadata> All
+    {
+        get { return _all; }
     }
 }

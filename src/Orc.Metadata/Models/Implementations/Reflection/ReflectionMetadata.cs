@@ -1,86 +1,88 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ReflectionMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System;
+using System.Reflection;
+using Catel;
+using Catel.Reflection;
 
-namespace Orc.Metadata
+public class ReflectionMetadata : IMetadata
 {
-    using System;
-    using System.Reflection;
-    using Catel;
-    using Catel.Reflection;
+    private readonly PropertyInfo _propertyInfo;
 
-    public class ReflectionMetadata : IMetadata
+    public ReflectionMetadata(PropertyInfo propertyInfo)
     {
-        private readonly PropertyInfo _propertyInfo;
+        ArgumentNullException.ThrowIfNull(propertyInfo);
 
-        public ReflectionMetadata(PropertyInfo propertyInfo)
+        _propertyInfo = propertyInfo;
+
+        Name = _propertyInfo.Name;
+        DisplayName = Name;
+    }
+
+    public virtual string Name { get; private set; }
+
+    public virtual string DisplayName { get; set; }
+
+    public virtual Type Type
+    {
+        get { return _propertyInfo.PropertyType; }
+    }
+
+    public virtual bool TryGetValue(object instance, out object? value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
+
+        value = _propertyInfo.GetValue(instance, null);
+        return true;
+    }
+
+    public bool TryGetValue<TValue>(object instance, out TValue? value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
+
+        if (!_propertyInfo.DeclaringType?.IsAssignableFromEx(instance.GetType()) ?? false)
         {
-            Argument.IsNotNull(() => propertyInfo);
-
-            _propertyInfo = propertyInfo;
-
-            Name = _propertyInfo.Name;
-            DisplayName = Name;
-        }
-
-        public virtual string Name { get; private set; }
-
-        public virtual string DisplayName { get; set; }
-
-        public virtual Type Type
-        {
-            get { return _propertyInfo.PropertyType; }
-        }
-
-        public virtual object GetValue(object instance)
-        {
-            return _propertyInfo.GetValue(instance, null);
-        }
-
-        public bool GetValue<TValue>(object instance, out TValue value)
-        {
-            if (instance is null || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
-            {
-                value = default;
-                return false;
-            }
-
-            var result = GetValue(instance);
-
-            if (ObjectHelper.AreEqual(result, default(TValue)))
-            {
-                value = default;
-                return true;
-            }
-
-            if (GetValue(instance) is TValue propertyValue)
-            {
-                value = propertyValue;
-                return true;
-            }
-
             value = default;
             return false;
         }
 
-        public virtual void SetValue(object instance, object value)
+        if (!TryGetValue(instance, out object? objectValue))
         {
-            _propertyInfo.SetValue(instance, value, null);
-        }
-
-        public bool SetValue<TValue>(object instance, TValue value)
-        {
-            if (instance is null || !Type.IsAssignableFromEx(typeof(TValue)) || !_propertyInfo.DeclaringType.IsAssignableFromEx(instance.GetType()))
-            {
-                return false;
-            }
-
-            _propertyInfo.SetValue(instance, value, null);
-
+            value = default;
             return false;
         }
+
+        if (ObjectHelper.AreEqual(objectValue, default(TValue)))
+        {
+            value = default;
+            return true;
+        }
+
+        if (objectValue is TValue propertyValue)
+        {
+            value = propertyValue;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public virtual bool TrySetValue(object instance, object? value)
+    {
+        _propertyInfo.SetValue(instance, value, null);
+        return true;
+    }
+
+    public bool TrySetValue<TValue>(object instance, TValue value)
+    {
+        if (!Type.IsAssignableFromEx(typeof(TValue)) || (!_propertyInfo.DeclaringType?.IsAssignableFromEx(instance.GetType()) ?? false))
+        {
+            return false;
+        }
+
+        _propertyInfo.SetValue(instance, value, null);
+
+        return true;
     }
 }

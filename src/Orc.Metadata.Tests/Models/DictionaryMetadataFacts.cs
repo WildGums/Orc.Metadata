@@ -1,62 +1,56 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadataFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata.Tests.Models;
 
+using System.Collections.Generic;
+using Factories;
+using NUnit.Framework;
 
-namespace Orc.Metadata.Tests.Models
+[TestFixture]
+public class DictionaryMetadataFacts
 {
-    using System.Collections.Generic;
-    using Factories;
-    using NUnit.Framework;
+    private DictionaryMetadataCollection _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+    private Dictionary<string, object> _dictionary;
 
-    [TestFixture]
-    public class DictionaryMetadataFacts
+    [OneTimeSetUp]
+    public void Init()
     {
-        private DictionaryMetadataCollection _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
-        private Dictionary<string, object> _dictionary;
+        _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _metadataCollection = DictionaryMetadataFactory.CreateMetadataCollection();
+        _dictionary = new Dictionary<string, object>();
+        _dictionary["ExistingProperty"] = "works";
+        _dictionary["StringProperty"] = null;
+        _dictionary["IntProperty"] = 42;
+    }
 
-            _dictionary = new Dictionary<string, object>();
-            _dictionary["ExistingProperty"] = "works";
-            _dictionary["StringProperty"] = null;
-            _dictionary["IntProperty"] = 42;
-        }
+    [TestCase("ExistingProperty", "works")]
+    [TestCase("StringProperty", null)]
+    [TestCase("IntProperty", 42)]
+    public void TheGetValueMethod(string metadataName, object expectedValue)
+    {
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TryGetValue(_dictionary, out object actualValue);
 
-        [TestCase("ExistingProperty", "works")]
-        [TestCase("StringProperty", null)]
-        [TestCase("IntProperty", 42)]
-        public void TheGetValueMethod(string metadataName, object expectedValue)
-        {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            var result = metadata.GetValue(_dictionary, out object actualValue);
+        Assert.That(result, Is.EqualTo(true));
+        Assert.That(actualValue, Is.EqualTo(expectedValue));
+    }
 
-            Assert.AreEqual(result, true);
-            Assert.AreEqual(expectedValue, actualValue);
-        }
+    [TestCase("ExistingProperty", "differentValue")]
+    [TestCase("StringProperty", "stringvalue")]
+    public void TheSetValueMethodString(string metadataName, string expectedValue)
+    {
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TrySetValue(_dictionary, expectedValue.ToString());
 
-        [TestCase("ExistingProperty", "differentValue")]
-        [TestCase("StringProperty", "stringvalue")]
-        public void TheSetValueMethodString(string metadataName, string expectedValue)
-        {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_dictionary, expectedValue.ToString());
+        Assert.That(result, Is.True);
+        Assert.That(_dictionary[metadataName], Is.EqualTo(expectedValue));
+    }
 
-            Assert.AreEqual(expectedValue, _dictionary[metadataName]);
-        }
+    [TestCase("IntProperty", 1)]
+    public void TheSetValueMethodInt(string metadataName, int expectedValue)
+    {
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TrySetValue(_dictionary, expectedValue);
 
-        [TestCase("IntProperty", 1)]
-        public void TheSetValueMethodInt(string metadataName, int expectedValue)
-        {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_dictionary, expectedValue);
-
-            Assert.AreEqual(expectedValue, _dictionary[metadataName]);
-        }
+        Assert.That(result, Is.True);
+        Assert.That(_dictionary[metadataName], Is.EqualTo(expectedValue));
     }
 }

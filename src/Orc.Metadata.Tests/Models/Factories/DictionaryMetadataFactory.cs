@@ -1,80 +1,83 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadataFactory.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+namespace Orc.Metadata.Tests.Models.Factories;
 
+using System;
+using System.Collections.Generic;
+using System.Windows.Media;
 
-namespace Orc.Metadata.Tests.Models.Factories
+public static class DictionaryMetadataFactory
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Media;
-
-    public static class DictionaryMetadataFactory
+    public static Dictionary<string, Type> CreateSchemaDictionary()
     {
-        public static Dictionary<string, Type> CreateSchemaDictionary()
+        var dictionary = new Dictionary<string, Type>
         {
-            var dictionary = new Dictionary<string, Type>();
+            ["StringProperty"] = typeof(string),
+            ["IntProperty"] = typeof(int),
+            ["ExistingProperty"] = typeof(string)
+        };
 
-            dictionary["StringProperty"] = typeof(string);
-            dictionary["IntProperty"] = typeof(int);
-            dictionary["ExistingProperty"] = typeof(string);
+        return dictionary;
+    }
 
-            return dictionary;
-        }
+    public static DictionaryMetadataCollection CreateMetadataCollection()
+    {
+        var schema = CreateSchemaDictionary();
 
-        public static DictionaryMetadataCollection CreateMetadataCollection()
+        return new DictionaryMetadataCollection(schema);
+    }
+
+    public static IObjectWithMetadata CreateFlatObjectWithMetadata()
+    {
+        var schema = CreateSchemaDictionary();
+
+        var metadata = new Dictionary<string, object>
         {
-            var schema = CreateSchemaDictionary();
+            ["ExistingProperty"] = "works",
+            ["StringProperty"] = null,
+            ["IntProperty"] = 42
+        };
 
-            return new DictionaryMetadataCollection(schema);
-        }
+        var objectWithMetadata = new DictionaryObjectWithMetadata(metadata, schema, metadata);
+        return objectWithMetadata;
 
-        public static IObjectWithMetadata CreateFlatObjectWithMetadata()
+    }
+
+    public static IObjectWithMetadata CreateHierarchicalObjectWithMetadata()
+    {
+        var solidColorBrush = Brushes.Red;
+        var color = solidColorBrush.Color;
+
+        var metadataSchema = new Dictionary<string, Type>
         {
-            var schema = CreateSchemaDictionary();
+            ["Name"] = typeof(string),
+            ["RGB"] = typeof(string),
+            ["Color"] = typeof(IObjectWithMetadata)
+        };
 
-            var metadata = new Dictionary<string, object>();
-            metadata["ExistingProperty"] = "works";
-            metadata["StringProperty"] = null;
-            metadata["IntProperty"] = 42;
-
-            var objectWithMetadata = new DictionaryObjectWithMetadata(metadata, schema, metadata);
-            return objectWithMetadata;
-
-        }
-
-        public static IObjectWithMetadata CreateHierarchicalObjectWithMetadata()
+        var colorMetadataSchema = new Dictionary<string, Type>
         {
-            var solidColorBrush = Brushes.Red;
-            var color = solidColorBrush.Color;
+            ["A"] = typeof(int),
+            ["R"] = typeof(int),
+            ["G"] = typeof(int),
+            ["B"] = typeof(int)
+        };
 
-            var metadataSchema = new Dictionary<string, Type>();
-            metadataSchema["Name"] = typeof(string);
-            metadataSchema["RGB"] = typeof(string);
-            metadataSchema["Color"] = typeof(IObjectWithMetadata);
+        var colorMetadata = new Dictionary<string, object>
+        {
+            ["A"] = color.A,
+            ["R"] = color.R,
+            ["G"] = color.G,
+            ["B"] = color.B
+        };
 
-            var colorMetadataSchema = new Dictionary<string, Type>();
-            colorMetadataSchema["A"] = typeof(int);
-            colorMetadataSchema["R"] = typeof(int);
-            colorMetadataSchema["G"] = typeof(int);
-            colorMetadataSchema["B"] = typeof(int);
+        var colorObjectWithMetadata = new DictionaryObjectWithMetadata(solidColorBrush, colorMetadataSchema, colorMetadata);
 
-            var colorMetadata = new Dictionary<string, object>();
-            colorMetadata["A"] = color.A;
-            colorMetadata["R"] = color.R;
-            colorMetadata["G"] = color.G;
-            colorMetadata["B"] = color.B;
+        var metadata = new Dictionary<string, object>
+        {
+            ["Name"] = solidColorBrush.ToString(),
+            ["RGB"] = solidColorBrush.ToString(),
+            ["Color"] = colorObjectWithMetadata
+        };
 
-            var colorObjectWithMetadata = new DictionaryObjectWithMetadata(solidColorBrush, colorMetadataSchema, colorMetadata);
-
-            var metadata = new Dictionary<string, object>();
-            metadata["Name"] = solidColorBrush.ToString();
-            metadata["RGB"] = solidColorBrush.ToString();
-            metadata["Color"] = colorObjectWithMetadata;
-
-            return new DictionaryObjectWithMetadata(solidColorBrush, metadataSchema, metadata);
-        }
+        return new DictionaryObjectWithMetadata(solidColorBrush, metadataSchema, metadata);
     }
 }

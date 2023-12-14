@@ -1,70 +1,62 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IObjectWithMetadataExtensionsFacts.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+namespace Orc.Metadata.Tests.Models;
 
+using System.Collections.Generic;
+using Factories;
+using NUnit.Framework;
 
-namespace Orc.Metadata.Tests.Models
+public class IObjectWithMetadataExtensionsFacts
 {
-    using System.Collections.Generic;
-    using Factories;
-    using NUnit.Framework;
-
-    public class IObjectWithMetadataExtensionsFacts
+    [TestFixture]
+    public class TheConvertToStaticDictionaryMetadataMethod
     {
-        [TestFixture]
-        public class TheConvertToStaticDictionaryMetadataMethod
+        [TestCase]
+        public void ConvertsFlatMetadataCollectionToList()
         {
-            [TestCase]
-            public void ConvertsFlatMetadataCollectionToList()
-            {
-                var objectWithMetadata = DictionaryMetadataFactory.CreateFlatObjectWithMetadata();
+            var objectWithMetadata = DictionaryMetadataFactory.CreateFlatObjectWithMetadata();
 
-                var dictionary = objectWithMetadata.ToStaticMetadataDictionary();
+            var dictionary = objectWithMetadata.ToStaticMetadataDictionary();
 
-                Assert.AreEqual(3, dictionary.Count);
-                Assert.AreEqual(null, dictionary["StringProperty"].ObjectValue);
-                Assert.AreEqual(42, dictionary["IntProperty"].ObjectValue);
-                Assert.AreEqual("works", dictionary["ExistingProperty"].ObjectValue);
-            }
-
-            [TestCase]
-            public void ConvertsHierarchicalMetadataCollectionToList()
-            {
-                var objectWithMetadata = DictionaryMetadataFactory.CreateHierarchicalObjectWithMetadata();
-
-                var dictionary = objectWithMetadata.ToStaticMetadataDictionary();
-
-                Assert.AreEqual(3, dictionary.Count);
-
-                Assert.AreEqual("#FFFF0000", dictionary["Name"].ObjectValue);
-                Assert.AreEqual("#FFFF0000", dictionary["RGB"].ObjectValue);
-
-                var subDictionary = (Dictionary<string, IMetadataValue>)dictionary["Color"].ObjectValue;
-                Assert.AreEqual(4, subDictionary.Count);
-                Assert.AreEqual(255, subDictionary["A"].ObjectValue);
-                Assert.AreEqual(255, subDictionary["R"].ObjectValue);
-                Assert.AreEqual(0, subDictionary["G"].ObjectValue);
-                Assert.AreEqual(0, subDictionary["B"].ObjectValue);
-            }
+            Assert.That(dictionary.Count, Is.EqualTo(3));
+            Assert.That(dictionary["StringProperty"].ObjectValue, Is.EqualTo(null));
+            Assert.That(dictionary["IntProperty"].ObjectValue, Is.EqualTo(42));
+            Assert.That(dictionary["ExistingProperty"].ObjectValue, Is.EqualTo("works"));
         }
 
-        [TestFixture]
-        public class TheConvertToStaticListMetadataMethod
+        [TestCase]
+        public void ConvertsHierarchicalMetadataCollectionToList()
         {
-            [TestCase]
-            public void ConvertsFlatMetadataCollectionToList()
-            {
-                var objectWithMetadata = DictionaryMetadataFactory.CreateFlatObjectWithMetadata();
+            var objectWithMetadata = DictionaryMetadataFactory.CreateHierarchicalObjectWithMetadata();
 
-                var flatList = objectWithMetadata.ToStaticMetadataList();
+            var dictionary = objectWithMetadata.ToStaticMetadataDictionary();
 
-                Assert.AreEqual(3, flatList.Count);
-                Assert.AreEqual(null, flatList[0].ObjectValue);
-                Assert.AreEqual(42, flatList[1].ObjectValue);
-                Assert.AreEqual("works", flatList[2].ObjectValue);
-            }
+            Assert.That(dictionary.Count, Is.EqualTo(3));
+
+            Assert.That(dictionary["Name"].ObjectValue, Is.EqualTo("#FFFF0000"));
+            Assert.That(dictionary["RGB"].ObjectValue, Is.EqualTo("#FFFF0000"));
+
+            var subDictionary = (Dictionary<string, IMetadataValue>)dictionary["Color"].ObjectValue;
+            Assert.That(subDictionary.Count, Is.EqualTo(4));
+            Assert.That(subDictionary["A"].ObjectValue, Is.EqualTo(255));
+            Assert.That(subDictionary["R"].ObjectValue, Is.EqualTo(255));
+            Assert.That(subDictionary["G"].ObjectValue, Is.EqualTo(0));
+            Assert.That(subDictionary["B"].ObjectValue, Is.EqualTo(0));
+        }
+    }
+
+    [TestFixture]
+    public class TheConvertToStaticListMetadataMethod
+    {
+        [TestCase]
+        public void ConvertsFlatMetadataCollectionToList()
+        {
+            var objectWithMetadata = DictionaryMetadataFactory.CreateFlatObjectWithMetadata();
+
+            var flatList = objectWithMetadata.ToStaticMetadataList();
+
+            Assert.That(flatList.Count, Is.EqualTo(3));
+            Assert.That(flatList[0].ObjectValue, Is.EqualTo(null));
+            Assert.That(flatList[1].ObjectValue, Is.EqualTo(42));
+            Assert.That(flatList[2].ObjectValue, Is.EqualTo("works"));
         }
     }
 }

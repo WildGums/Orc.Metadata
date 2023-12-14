@@ -16,7 +16,7 @@ public static class ModuleInitializer
 
         serviceLocator.RegisterType<IMetadataProvider, MetadataProvider>();
 
-        var languageService = serviceLocator.ResolveType<ILanguageService>();
+        var languageService = serviceLocator.ResolveRequiredType<ILanguageService>();
         languageService.RegisterLanguageSource(new LanguageResourceSource("Orc.Metadata", "Orc.Metadata.Properties", "Resources"));
     }
 }

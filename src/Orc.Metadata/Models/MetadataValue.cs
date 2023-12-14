@@ -1,41 +1,36 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetadataValue.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System;
+using System.Diagnostics;
 
-namespace Orc.Metadata
+[DebuggerDisplay("{Metadata.Name} => {ObjectValue}")]
+public class MetadataValue : IMetadataValue
 {
-    using System.Diagnostics;
-
-    [DebuggerDisplay("{Metadata.Name} => {ObjectValue}")]
-    public class MetadataValue : IMetadataValue
+    public MetadataValue(IMetadata metadata)
     {
-        public MetadataValue(IMetadata metadata)
-        {
-            Metadata = metadata;
-        }
+        ArgumentNullException.ThrowIfNull(metadata);
 
-        public IMetadata Metadata { get; private set; }
-
-        public virtual object ObjectValue { get; set; }
+        Metadata = metadata;
     }
 
-    [DebuggerDisplay("{Metadata.Name} => {Value}")]
-    public class MetadataValue<TValue> : MetadataValue, IMetadataValue<TValue>
+    public IMetadata Metadata { get; private set; }
+
+    public virtual object? ObjectValue { get; set; }
+}
+
+[DebuggerDisplay("{Metadata.Name} => {Value}")]
+public class MetadataValue<TValue> : MetadataValue, IMetadataValue<TValue>
+{
+    public MetadataValue(IMetadata metadata)
+        : base(metadata)
     {
-        public MetadataValue(IMetadata metadata)
-            : base(metadata)
-        {
-        }
+    }
 
-        public TValue Value { get; set; }
+    public TValue? Value { get; set; }
 
-        public override object ObjectValue
-        {
-            get => (object)Value;
-            set => Value = (TValue)value;
-        }
+    public override object? ObjectValue
+    {
+        get => Value;
+        set => Value = (TValue?)value;
     }
 }

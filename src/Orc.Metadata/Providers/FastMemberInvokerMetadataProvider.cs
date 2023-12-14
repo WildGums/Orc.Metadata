@@ -1,28 +1,41 @@
-﻿namespace Orc.Metadata
+﻿namespace Orc.Metadata;
+
+using System;
+using System.Threading.Tasks;
+using Catel.Caching;
+using Catel.Logging;
+using Catel.Reflection;
+
+public class FastMemberInvokerMetadataProvider : IMetadataProvider
 {
-    using System;
-    using System.Threading.Tasks;
-    using Catel.Caching;
-    using Catel.Reflection;
-    using Catel.Threading;
+    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
-    public class FastMemberInvokerMetadataProvider : IMetadataProvider
+    private static readonly ICacheStorage<Type, IFastMemberInvoker> MemberInvokerCache = new CacheStorage<Type, IFastMemberInvoker>();
+    private static readonly ICacheStorage<Type, Type> MemberInvokerTypeCache = new CacheStorage<Type, Type>();
+
+    public Task<IObjectWithMetadata> GetMetadataAsync(object obj)
     {
-        private static readonly ICacheStorage<Type, IFastMemberInvoker> MemberInvokerCache = new CacheStorage<Type, IFastMemberInvoker>();
-        private static readonly ICacheStorage<Type, Type> MemberInvokerTypeCache = new CacheStorage<Type, Type>();
+        ArgumentNullException.ThrowIfNull(obj);
 
-        public Task<IObjectWithMetadata> GetMetadataAsync(object obj)
+        var memberInvoker = GetMemberInvoker(obj);
+
+        return Task.FromResult<IObjectWithMetadata>(new FastMemberInvokerObjectWithMetadata(obj, memberInvoker));
+    }
+
+    private static IFastMemberInvoker GetMemberInvoker(object obj)
+    {
+        ArgumentNullException.ThrowIfNull(obj);
+
+        var invokerType = MemberInvokerTypeCache.GetFromCacheOrFetch(obj.GetType(), () => typeof(FastMemberInvoker<>).MakeGenericType(obj.GetType()));
+
+        return MemberInvokerCache.GetFromCacheOrFetch(invokerType, () =>
         {
-            var memberInvoker = GetMemberInvoker(obj);
+            if (Activator.CreateInstance(invokerType) is not IFastMemberInvoker fastMemberInvoker)
+            {
+                throw Log.ErrorAndCreateException<InvalidOperationException>($"Cannot create fast member invoker for '{obj.GetType().GetSafeFullName()}'");
+            }
 
-            return TaskHelper<IObjectWithMetadata>.FromResult(new FastMemberInvokerObjectWithMetadata(obj, memberInvoker));
-        }
-
-        private static IFastMemberInvoker GetMemberInvoker(object obj)
-        {
-            var invokerType = MemberInvokerTypeCache.GetFromCacheOrFetch(obj.GetType(), () => typeof(FastMemberInvoker<>).MakeGenericType(obj.GetType()));
-
-            return MemberInvokerCache.GetFromCacheOrFetch(invokerType, () => (IFastMemberInvoker)Activator.CreateInstance(invokerType));
-        }
+            return fastMemberInvoker;
+        });
     }
 }

@@ -1,70 +1,53 @@
-﻿namespace Orc.Metadata
+﻿namespace Orc.Metadata;
+
+using System;
+using Catel.Reflection;
+
+public class FastMemberInvokerMetadata : IMetadata
 {
-    using System;
-    using Catel;
-    using Catel.Reflection;
+    private readonly IFastMemberInvoker _fastMemberInvoker;
 
-    public class FastMemberInvokerMetadata : IMetadata
+    public FastMemberInvokerMetadata(IFastMemberInvoker fastMemberInvoker, string name, Type type)
     {
-        private readonly IFastMemberInvoker _fastMemberInvoker;
+        ArgumentNullException.ThrowIfNull(fastMemberInvoker);
 
-        public FastMemberInvokerMetadata(IFastMemberInvoker fastMemberInvoker, string name, Type type)
-        {
-            Argument.IsNotNull(() => fastMemberInvoker);
+        _fastMemberInvoker = fastMemberInvoker;
+        Name = name;
+        DisplayName = Name;
+        Type = type;
+    }
 
-            _fastMemberInvoker = fastMemberInvoker;
-            Name = name;
-            DisplayName = Name;
-            Type = type;
-        }
+    public string Name { get; }
 
-        public string Name { get; }
+    public string DisplayName { get; set; }
 
-        public string DisplayName { get; set; }
+    public Type Type { get; }
 
-        public Type Type { get; }
+    public bool TryGetValue(object instance, out object? value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
 
-        public object GetValue(object instance)
-        {
-            object result = null;
+        return _fastMemberInvoker.TryGetPropertyValue(instance, Name, out value);
+    }
 
-            if (instance is not null)
-            {
-                _fastMemberInvoker.TryGetPropertyValue(instance, Name, out result);
-            }
+    public bool TrySetValue(object instance, object value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
 
-            return result;
-        }
+        return _fastMemberInvoker.TrySetPropertyValue(instance, Name, value);
+    }
 
-        public void SetValue(object instance, object value)
-        {
-            if (instance is null)
-            {
-                return;
-            }
+    public bool TryGetValue<TValue>(object instance, out TValue value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
 
-            _fastMemberInvoker.SetPropertyValue(instance, Name, value);
-        }
+        return _fastMemberInvoker.TryGetPropertyValue(instance, Name, out value);
+    }
 
-        public bool GetValue<TValue>(object instance, out TValue value)
-        {
-            if (instance is null)
-            {
-                value = default;
-                return false;
-            }
+    public bool TrySetValue<TValue>(object instance, TValue value)
+    {
+        ArgumentNullException.ThrowIfNull(instance);
 
-            return _fastMemberInvoker.TryGetPropertyValue(instance, Name, out value);
-        }
-
-        public bool SetValue<TValue>(object instance, TValue value)
-        {
-            if (instance is null)
-            {
-                return false;
-            }
-
-            return _fastMemberInvoker.SetPropertyValue(instance, Name, value);
-        }
+        return _fastMemberInvoker.TrySetPropertyValue(instance, Name, value);
     }
 }

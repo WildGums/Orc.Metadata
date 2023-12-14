@@ -1,61 +1,72 @@
-﻿namespace Orc.Metadata.Tests
+﻿namespace Orc.Metadata.Tests;
+
+using Catel.Reflection;
+using NUnit.Framework;
+using Fixtures;
+
+[TestFixture]
+public class FastMemberInvokerMetadataFacts
 {
-    using Catel.Reflection;
-    using NUnit.Framework;
-    using Orc.Metadata.Tests.Fixtures;
+    private ReflectionMetadataCollection _metadataCollection;
 
-    [TestFixture]
-    public class FastMemberInvokerMetadataFacts
+    [OneTimeSetUp]
+    public void Init()
     {
-        private ReflectionMetadataCollection _metadataCollection;
-        private TestModel _model;
+        _metadataCollection = new ReflectionMetadataCollection(typeof(TestModel));
+    }
 
-        [OneTimeSetUp]
-        public void Init()
+    [TestCase("ExistingProperty", "works")]
+    [TestCase("StringProperty", null)]
+    [TestCase("IntProperty", 42)]
+    public void TheTryGetValueMethod(string metadataName, object expectedValue)
+    {
+        var model = new TestModel
         {
-            _metadataCollection = new ReflectionMetadataCollection(typeof(TestModel));
+            ExistingProperty = "works",
+            StringProperty = null,
+            IntProperty = 42
+        };
 
-            _model = new TestModel
-            {
-                ExistingProperty = "works",
-                StringProperty = null,
-                IntProperty = 42
-            };
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TryGetValue(model, out object actualValue);
 
-        }
+        Assert.That(result, Is.True);
+        Assert.That(actualValue, Is.EqualTo(expectedValue));
+    }
 
+    [TestCase("ExistingProperty", "differentValue")]
+    [TestCase("StringProperty", "stringvalue")]
 
-        [TestCase("ExistingProperty", "works")]
-        [TestCase("StringProperty", null)]
-        [TestCase("IntProperty", 42)]
-        public void TheGetValueMethod(string metadataName, object expectedValue)
+    public void TheSetValueMethodString(string metadataName, string expectedValue)
+    {
+        var model = new TestModel
         {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            var result = metadata.GetValue(_model, out object actualValue);
+            ExistingProperty = "works",
+            StringProperty = null,
+            IntProperty = 42
+        };
 
-            Assert.AreEqual(expectedValue, actualValue);
-            Assert.AreEqual(result, true);
-        }
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TrySetValue(model, expectedValue);
 
-        [TestCase("ExistingProperty", "differentValue")]
-        [TestCase("StringProperty", "stringvalue")]
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(model, metadataName, false), Is.EqualTo(expectedValue));
+    }
 
-        public void TheSetValueMethodString(string metadataName, string expectedValue)
+    [TestCase("IntProperty", 1)]
+    public void TheSetValueMethodInt(string metadataName, int expectedValue)
+    {
+        var model = new TestModel
         {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
+            ExistingProperty = "works",
+            StringProperty = null,
+            IntProperty = 42
+        };
 
-            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
-        }
+        var metadata = _metadataCollection.GetMetadata(metadataName);
+        var result = metadata.TrySetValue(model, expectedValue);
 
-        [TestCase("IntProperty", 1)]
-        public void TheSetValueMethodInt(string metadataName, int expectedValue)
-        {
-            var metadata = _metadataCollection.GetMetadata(metadataName);
-            metadata.SetValue(_model, expectedValue);
-
-            Assert.AreEqual(expectedValue, PropertyHelper.GetPropertyValue(_model, metadataName, false));
-
-        }
+        Assert.That(result, Is.True);
+        Assert.That(PropertyHelper.GetPropertyValue(model, metadataName, false), Is.EqualTo(expectedValue));
     }
 }

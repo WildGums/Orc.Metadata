@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMetadataCollection.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System.Collections.Generic;
 
-namespace Orc.Metadata
+public interface IMetadataCollection : IEnumerable<IMetadata>
 {
-    using System.Collections.Generic;
+    IEnumerable<IMetadata> All { get; }
 
-    public interface IMetadataCollection : IEnumerable<IMetadata>
-    {
-        IEnumerable<IMetadata> All { get; }
-
-        IMetadata GetMetadata(string propertyName);
-    }
+    IMetadata? GetMetadata(string propertyName);
 }

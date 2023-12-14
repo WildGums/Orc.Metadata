@@ -1,35 +1,29 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryObjectWithMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System;
+using System.Collections.Generic;
 
-namespace Orc.Metadata
+public class DictionaryObjectWithMetadata : ObjectWithMetadata
 {
-    using System;
-    using System.Collections.Generic;
+    private readonly Dictionary<string, object?> _metadata;
 
-    public class DictionaryObjectWithMetadata : ObjectWithMetadata
+    public DictionaryObjectWithMetadata(object instance, Dictionary<string, Type> dictionarySchema, Dictionary<string, object?> metadata)
+        : base(instance, new DictionaryMetadataCollection(dictionarySchema))
     {
-        private readonly Dictionary<string, object> _metadata;
+        ArgumentNullException.ThrowIfNull(instance);
+        ArgumentNullException.ThrowIfNull(dictionarySchema);
+        ArgumentNullException.ThrowIfNull(metadata);
 
-        #region Constructors
-        public DictionaryObjectWithMetadata(object instance, Dictionary<string, Type> dictionarySchema, Dictionary<string, object> metadata)
-            : base(instance, new DictionaryMetadataCollection(dictionarySchema))
-        {
-            _metadata = metadata;
-        }
-        #endregion
+        _metadata = metadata;
+    }
 
-        public override object GetMetadataValue(string key)
-        {
-            return GetMetadataValueWithInstance(_metadata, key);
-        }
+    public override bool TryGetMetadataValue(string key, out object? value)
+    {
+        return TryGetMetadataValueWithInstance(_metadata, key, out value);
+    }
 
-        public override bool SetMetadataValue(string key, object value)
-        {
-            return SetMetadataValueWithInstance(_metadata, key, value);
-        }
+    public override bool TrySetMetadataValue(string key, object? value)
+    {
+        return TrySetMetadataValueWithInstance(_metadata, key, value);
     }
 }

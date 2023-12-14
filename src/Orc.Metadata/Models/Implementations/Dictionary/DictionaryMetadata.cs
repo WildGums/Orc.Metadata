@@ -1,107 +1,89 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DictionaryMetadata.cs" company="WildGums">
-//   Copyright (c) 2008 - 2015 WildGums. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Orc.Metadata;
 
+using System;
+using System.Collections.Generic;
+using Catel;
 
-namespace Orc.Metadata
+public class DictionaryMetadata : IMetadata
 {
-    using System;
-    using System.Collections.Generic;
-    using Catel;
+    private readonly Type _expectedType;
+    private readonly string _key;
 
-    public class DictionaryMetadata : IMetadata
+    public DictionaryMetadata(string key, Type expectedType)
     {
-        #region Fields
-        private readonly Type _expectedType;
-        private readonly string _key;
-        #endregion
+        ArgumentNullException.ThrowIfNull(key);
+        ArgumentNullException.ThrowIfNull(expectedType);
 
-        #region Constructors
-        public DictionaryMetadata()
+        _key = key;
+        DisplayName = key;
+        _expectedType = expectedType;
+    }
+
+    public virtual string DisplayName { get; set; }
+
+    public virtual string Name
+    {
+        get { return _key; }
+    }
+
+    public virtual Type Type
+    {
+        get { return _expectedType; }
+    }
+
+    public virtual bool TryGetValue(object instance, out object? value)
+    {
+        value = null;
+
+        if (instance is IDictionary<string, object?> dictionary)
         {
+            return dictionary.TryGetValue(_key, out value);
         }
 
-        public DictionaryMetadata(string key, Type expectedType)
-            : this()
+        return false;
+    }
+
+    public bool TryGetValue<TValue>(object instance, out TValue? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary 
+            && dictionary.TryGetValue(_key, out var result))
         {
-            Argument.IsNotNull(() => key);
-            Argument.IsNotNull(() => expectedType);
-
-            _key = key;
-            DisplayName = key;
-            _expectedType = expectedType;
-        }
-        #endregion
-
-        #region Properties
-        public virtual string DisplayName { get; set; }
-
-        public virtual string Name
-        {
-            get { return _key; }
-        }
-
-        public virtual Type Type
-        {
-            get { return _expectedType; }
-        }
-        #endregion
-
-        #region Methods
-        public virtual object GetValue(object instance)
-        {
-            object result = null;
-
-            if (instance is IDictionary<string, object> dictionary)
+            if (ObjectHelper.AreEqual(result, default(TValue)))
             {
-                dictionary.TryGetValue(_key, out result);
-            }
-
-            return result;
-        }
-
-        public bool GetValue<TValue>(object instance, out TValue value)
-        {
-            if (instance is IDictionary<string, object> dictionary 
-                && dictionary.TryGetValue(_key, out var result))
-            {
-                if (ObjectHelper.AreEqual(result, default(TValue)))
-                {
-                    value = default;
-                    return true;
-                }
-
-                if (result is TValue resultValue)
-                {
-                    value = resultValue;
-                    return true;
-                }
-            }
-
-            value = default;
-            return false;
-        }
-
-        public virtual void SetValue(object instance, object value)
-        {
-            if (instance is IDictionary<string, object> dictionary)
-            {
-                dictionary[_key] = value;
-            }
-        }
-
-        public bool SetValue<TValue>(object instance, TValue value)
-        {
-            if (instance is IDictionary<string, object> dictionary)
-            {
-                dictionary[_key] = value;
+                value = default;
                 return true;
             }
 
-            return false;
+            if (result is TValue resultValue)
+            {
+                value = resultValue;
+                return true;
+            }
         }
-        #endregion
+
+        value = default;
+        return false;
+    }
+
+    public virtual bool TrySetValue(object instance, object? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary)
+        {
+            dictionary[_key] = value;
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool TrySetValue<TValue>(object instance, TValue? value)
+    {
+        if (instance is IDictionary<string, object?> dictionary)
+        {
+            dictionary[_key] = value;
+            return true;
+        }
+
+        return false;
     }
 }
