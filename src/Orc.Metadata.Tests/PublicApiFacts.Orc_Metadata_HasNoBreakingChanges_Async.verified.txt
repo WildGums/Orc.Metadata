@@ -9,9 +9,9 @@ namespace Orc.Metadata
     public class DictionaryMetadata : Orc.Metadata.IMetadata
     {
         public DictionaryMetadata(string key, System.Type expectedType) { }
+        public virtual string DisplayName { get; set; }
         public virtual string Name { get; }
         public virtual System.Type Type { get; }
-        public virtual string DisplayName { get; set; }
         public virtual bool TryGetValue(object instance, out object? value) { }
         public bool TryGetValue<TValue>(object instance, out TValue? value) { }
         public virtual bool TrySetValue(object instance, object? value) { }
@@ -119,8 +119,8 @@ namespace Orc.Metadata
     public class MetadataValue<TValue> : Orc.Metadata.MetadataValue, Orc.Metadata.IMetadataValue, Orc.Metadata.IMetadataValue<TValue>
     {
         public MetadataValue(Orc.Metadata.IMetadata metadata) { }
-        public TValue Value { get; set; }
         public override object? ObjectValue { get; set; }
+        public TValue Value { get; set; }
     }
     public class ObjectWithMetadata : Orc.Metadata.IObjectWithMetadata
     {
@@ -135,9 +135,9 @@ namespace Orc.Metadata
     public class ReflectionMetadata : Orc.Metadata.IMetadata
     {
         public ReflectionMetadata(System.Reflection.PropertyInfo propertyInfo) { }
+        public virtual string DisplayName { get; set; }
         public string Name { get; }
         public virtual System.Type Type { get; }
-        public virtual string DisplayName { get; set; }
         public virtual bool TryGetValue(object instance, out object? value) { }
         public bool TryGetValue<TValue>(object instance, out TValue? value) { }
         public virtual bool TrySetValue(object instance, object? value) { }
