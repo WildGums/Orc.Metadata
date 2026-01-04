@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Catel.Caching;
 using Catel.Logging;
 using Catel.Reflection;
+using Microsoft.Extensions.Logging;
 
 public class FastMemberInvokerMetadataProvider : IMetadataProvider
 {
-    private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+    private static readonly ILogger Logger = LogManager.GetLogger(typeof(FastMemberInvokerMetadataProvider));
 
     private static readonly ICacheStorage<Type, IFastMemberInvoker> MemberInvokerCache = new CacheStorage<Type, IFastMemberInvoker>();
     private static readonly ICacheStorage<Type, Type> MemberInvokerTypeCache = new CacheStorage<Type, Type>();
@@ -32,7 +33,7 @@ public class FastMemberInvokerMetadataProvider : IMetadataProvider
         {
             if (Activator.CreateInstance(invokerType) is not IFastMemberInvoker fastMemberInvoker)
             {
-                throw Log.ErrorAndCreateException<InvalidOperationException>($"Cannot create fast member invoker for '{obj.GetType().GetSafeFullName()}'");
+                throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Cannot create fast member invoker for '{obj.GetType().GetSafeFullName()}'");
             }
 
             return fastMemberInvoker;

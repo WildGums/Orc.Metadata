@@ -133,6 +133,10 @@ namespace Orc.Metadata
         public virtual bool TrySetMetadataValue(string key, object? value) { }
         protected bool TrySetMetadataValueWithInstance(object instance, string key, object? value) { }
     }
+    public static class OrcMetadataModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcMetadata(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
+    }
     public class ReflectionMetadata : Orc.Metadata.IMetadata
     {
         public ReflectionMetadata(System.Reflection.PropertyInfo propertyInfo) { }
