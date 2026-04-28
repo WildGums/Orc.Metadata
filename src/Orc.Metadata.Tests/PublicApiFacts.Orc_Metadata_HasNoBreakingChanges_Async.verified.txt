@@ -154,3 +154,10 @@ namespace Orc.Metadata
         public ReflectionObjectWithMetadata(object instance) { }
     }
 }
+namespace Orc
+{
+    public static class OrcMetadataModule
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddOrcMetadata(this Microsoft.Extensions.DependencyInjection.IServiceCollection serviceCollection) { }
+    }
+}
