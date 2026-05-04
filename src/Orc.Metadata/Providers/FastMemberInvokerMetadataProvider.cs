@@ -33,7 +33,7 @@ public class FastMemberInvokerMetadataProvider : IMetadataProvider
         {
             if (Activator.CreateInstance(invokerType) is not IFastMemberInvoker fastMemberInvoker)
             {
-                throw Logger.LogErrorAndCreateException<InvalidOperationException>($"Cannot create fast member invoker for '{obj.GetType().GetSafeFullName()}'");
+                throw Logger.LogErrorAndCreateException<InvalidOperationException>("Cannot create fast member invoker for '{TypeName}'", obj.GetType().GetSafeFullName());
             }
 
             return fastMemberInvoker;
