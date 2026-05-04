@@ -85,9 +85,6 @@ src/
 | Namespace | Purpose |
 |-----------|---------|
 | `Orc.Metadata` | Root namespace; contains module initializer |
-| `Orc.Metadata.Models` | Core metadata models and base classes |
-| `Orc.Metadata.Models.Interfaces` | Public interfaces (`IMetadata`, `IMetadataCollection`, `IMetadataValue`, `IObjectWithMetadata`) |
-| `Orc.Metadata.Providers` | Metadata provider implementations |
 
 ### Directory Guide
 
